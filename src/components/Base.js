@@ -8,8 +8,9 @@ function Base() {
     const [IRA,setIRA] = useState()
 	const [FinalTakeHome, setFinalTakeHome] = useState();
     const [socialSec, setSocialSec] = useState();
-    const [taxRate,setTaxRate] = useState()
-
+    const [taxRate,setTaxRate] = useState([])
+	const [usState, setUsState] = useState('CA')
+	const [statesTax, setStateTax] = useState(0)
 	function handleChangeIncome(event) {
 		setIncome(event.target.value);
 	}
@@ -19,11 +20,38 @@ function Base() {
     function handleIRAChange(event) {
         setIRA(event.target.value)
     }
-    function handleSubmit(event) {
-        event.preventDefault();
-       console.log('t')
-    }
-	function handleCalculateTax(event) {
+    function handleIRAChange(event) {
+		event.preventDefault();
+		setIRA(event.target.value)
+       console.log(IRA)
+	}
+	function handleStateChange(event) {
+		event.preventDefault();
+		setUsState(event.target.value)
+	}
+	let fica;
+	let medicare;
+	function handleFica() {
+		if (income >= 137700) {
+			fica = 8537.4;
+			medicare = income * 0.0145
+		} else {
+			fica = income * 0.062;
+			medicare = income * 0.0145;			
+		}
+		return (fica,medicare)
+	}
+	
+	function stateTaxRate () {
+		let state =['WA','NV','WY','SD','TX','TN','FL','NH','AK']
+		if (state.includes(usState)) {
+			setStateTax(0)
+		}
+		else {
+			setStateTax(0.13)
+		}
+	}
+ 	function handleCalculateTax(event) {
 		event.preventDefault();
 		handleFica()
 		setSocialSec(fica);
@@ -145,6 +173,22 @@ function Base() {
 					placeholder='Income'
 					type='text'
 					onChange={handleChangeIncome}></input>
+				<select onChange={handleStateChange}>
+					<optgroup label='State'>
+						<option value='CA' defaultValue>
+							California{' '}
+						</option>
+						<option value='AK'>Alaska </option>
+						<option value='FL'>Florida </option>
+						<option value='NH'>New Hampshire </option>
+						<option value='NV'>Nevada </option>
+						<option value='TN'>Tennessee </option>
+						<option value='TX'>Texas </option>
+						<option value='SD'>South Dakota </option>
+						<option value='WA'>Washington </option>
+						<option value='WY'>Wyoming </option>
+					</optgroup>
+				</select>
 				<input
 					required
 					placeholder='Deduction'
@@ -152,10 +196,10 @@ function Base() {
 					onChange={handleChangeDeduction}></input>
 				<input
 					required
-					placeholder='401K or IRA Contribution Deduction'
+					placeholder='401K and/or IRA Contribution'
 					type='text'
 					onChange={handleIRAChange}></input>
-				<button type='submit'>Calculate Tax</button>
+				<button type='submit'>Calculate </button>
 			</form>
 			<h3> Break Down</h3>
 			<h4> Your Annual Income is ${income}</h4>
@@ -166,7 +210,7 @@ function Base() {
 			<p>Your Tax burden is ${tax}</p>
 			<p>You effective tax rate is {taxRate}% </p>
 			<p>You State is {usState} </p>
-			<p>You State tax rate is {statesTax*100}% </p>
+			<p>You State tax rate is {statesTax * 100}% </p>
 		</div>
 	);
 }
