@@ -1,18 +1,20 @@
 import React, { useState } from 'react';
 
 function Base() {
-	const [income, setIncome] = useState();
-	const [taxableIncome, setTaxableIncome] = useState();
+	const [grossIncome, setGrossIncome] = useState();
+	const [taxableIncome, setTaxableIncome] = useState()
 	const [tax, setTax] = useState();
 	const [deduction, setDeduction] = useState();
     const [IRA,setIRA] = useState()
 	const [FinalTakeHome, setFinalTakeHome] = useState();
-    const [socialSec, setSocialSec] = useState();
+	const [socialSec, setSocialSec] = useState();
+	const [medicareTax, setMedicareTax] = useState()
     const [taxRate,setTaxRate] = useState([])
 	const [usState, setUsState] = useState('CA')
 	const [statesTax, setStateTax] = useState(0)
+	
 	function handleChangeIncome(event) {
-		setIncome(event.target.value);
+		setGrossIncome(event.target.value);
 	}
 	function handleChangeDeduction(event) {
 		setDeduction(event.target.value);
@@ -20,28 +22,25 @@ function Base() {
     function handleIRAChange(event) {
         setIRA(event.target.value)
     }
-    function handleIRAChange(event) {
-		event.preventDefault();
-		setIRA(event.target.value)
-       console.log(IRA)
-	}
 	function handleStateChange(event) {
 		event.preventDefault();
 		setUsState(event.target.value)
 	}
+	let taxincome;
 	let fica;
 	let medicare;
 	function handleFica() {
-		if (income >= 137700) {
+		if (grossIncome >= 137700) {
 			fica = 8537.4;
-			medicare = income * 0.0145
+			medicare = grossIncome * 0.0145
 		} else {
-			fica = income * 0.062;
-			medicare = income * 0.0145;			
+			fica = grossIncome * 0.062;
+			medicare = grossIncome * 0.0145;			
 		}
+		setSocialSec(fica)
+		setMedicareTax(medicare)
 		return (fica,medicare)
 	}
-	
 	function stateTaxRate () {
 		let state =['WA','NV','WY','SD','TX','TN','FL','NH','AK']
 		if (state.includes(usState)) {
@@ -51,21 +50,22 @@ function Base() {
 			setStateTax(0.13)
 		}
 	}
- 	function handleCalculateTax(event) {
+	function calculateTaxableIncome () {
+		setTaxableIncome(grossIncome - deduction - IRA)
+		taxincome = grossIncome - deduction - IRA
+		return taxincome
+	}
+	
+ 	const handleCalculateTax = async (event) => {
 		event.preventDefault();
 		handleFica()
-		setSocialSec(fica);
-		stateTaxRate()
+		calculateTaxableIncome()
+		//setTaxableIncome(taxincome)
+		//stateTaxRate()
+		
+		console.log(fica)
+		console.log(taxincome)
 		let takeHome;
-        let grossIncome = income - deduction;
-        if(grossIncome < 0) {
-            setTaxableIncome(income);
-
-        } else if (grossIncome > 0){
-            setTaxableIncome(grossIncome)
-        }
-		
-		
 		let fedBracket1 = 9875;
 		let fedBracket2 = 40125 - 9876;
 		let fedBracket3 = 85525 - 40126;
@@ -92,9 +92,9 @@ function Base() {
 					fedBracket3 * fedTaxRate3 +
 					fedBracket2 * fedTaxRate2 +
 					fedBracket1 * fedTaxRate1);
-			setTax(income - takeHome);
+			setTax(grossIncome - takeHome);
             setFinalTakeHome(takeHome);
-            setTaxRate(((income-takeHome)/income)*100)
+            setTaxRate(((grossIncome-takeHome)/grossIncome)*100)
 		} else if (grossIncome > 204100 && grossIncome <= 510300) {
 			fedBracket6 = grossIncome - 204100;
 			takeHome =
@@ -107,9 +107,9 @@ function Base() {
 					fedBracket3 * fedTaxRate3 +
 					fedBracket2 * fedTaxRate2 +
 					fedBracket1 * fedTaxRate1);
-			setTax(income - takeHome);
+			setTax(grossIncome - takeHome);
             setFinalTakeHome(takeHome);
-            setTaxRate(((income - takeHome) / income) * 100);
+            setTaxRate(((grossIncome - takeHome) / grossIncome) * 100);
 		} else if (grossIncome > 160725 && grossIncome <= 204100) {
 			fedBracket5 = grossIncome - 160725;
 			takeHome =
@@ -121,9 +121,9 @@ function Base() {
 					fedBracket3 * fedTaxRate3 +
 					fedBracket2 * fedTaxRate2 +
 					fedBracket1 * fedTaxRate1);
-			setTax(income - takeHome);
+			setTax(grossIncome - takeHome);
             setFinalTakeHome(takeHome);
-            setTaxRate(((income - takeHome) / income) * 100);
+            setTaxRate(((grossIncome - takeHome) / grossIncome) * 100);
 		} else if (grossIncome > 84200 && grossIncome <= 160725) {
 			fedBracket4 = grossIncome - 84200;
 			takeHome =
@@ -135,9 +135,9 @@ function Base() {
 					fedBracket2 * fedTaxRate2 +
 					fedBracket1 * fedTaxRate1);
 			
-			setTax(income - takeHome);
+			setTax(grossIncome - takeHome);
             setFinalTakeHome(takeHome);
-            setTaxRate(((income - takeHome) / income) * 100);
+            setTaxRate(((grossIncome - takeHome) / grossIncome) * 100);
 		} else if (grossIncome > 39475 && grossIncome <= 84200) {
 			fedBracket3 = grossIncome - 39475;
 			takeHome =
@@ -146,25 +146,26 @@ function Base() {
 				medicare -
 				(fedBracket3 * fedTaxRate3 + fedBracket2 * fedTaxRate2 + fedBracket1 * fedTaxRate1);
 			
-			setTax(income - takeHome);
+			setTax(grossIncome - takeHome);
             setFinalTakeHome(takeHome);
-            setTaxRate(((income - takeHome) / income) * 100);
+            setTaxRate(((grossIncome - takeHome) / grossIncome) * 100);
 		} else if (grossIncome > 9700 && grossIncome <= 39475) {
 			fedBracket2 = grossIncome - 9700;
 			takeHome =
 				grossIncome - fica - medicare - (fedBracket2 * fedTaxRate2 + fedBracket1 * fedTaxRate1);
 			
-			setTax(income - takeHome);
+			setTax(grossIncome - takeHome);
             setFinalTakeHome(takeHome);
-            setTaxRate(((income - takeHome) / income) * 100);
+            setTaxRate(((grossIncome - takeHome) / grossIncome) * 100);
 		} else if (grossIncome < 0){
-			takeHome = income - fica - medicare - (fedBracket1 * fedTaxRate1);
-			setTax(income - takeHome);
+			takeHome = grossIncome - fica - medicare - (fedBracket1 * fedTaxRate1);
+			setTax(grossIncome - takeHome);
             setFinalTakeHome(takeHome);
-            setTaxRate(((income - takeHome) / income) * 100);
+            setTaxRate(((grossIncome - takeHome) / grossIncome) * 100);
             
-        }
+		}
 	}
+
 	return (
 		<div>
 			Please enter your Annual Income
@@ -202,11 +203,12 @@ function Base() {
 				<button type='submit'>Calculate </button>
 			</form>
 			<h3> Break Down</h3>
-			<h4> Your Annual Income is ${income}</h4>
+			<h4> Your Annual Income is ${grossIncome}</h4>
 			<p>Your deduction is ${deduction}</p>
 			<p>Your Total Taxable Income is ${taxableIncome}</p>
 			<p>Your Take Home is ${FinalTakeHome}</p>
 			<p>Your Social Security Tax is ${socialSec}</p>
+			<p>Your Medicare Tax is ${medicareTax}</p>
 			<p>Your Tax burden is ${tax}</p>
 			<p>You effective tax rate is {taxRate}% </p>
 			<p>You State is {usState} </p>
