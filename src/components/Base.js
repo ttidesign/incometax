@@ -1,14 +1,14 @@
 import React, { useState } from 'react';
 
 function Base() {
-	const [income, setIncome] = useState([]);
-	const [taxableIncome, setTaxableIncome] = useState([]);
-	const [tax, setTax] = useState([]);
-	const [deduction, setDeduction] = useState([]);
-	const [FinalTakeHome, setFinalTakeHome] = useState([]);
-    const [socialSec, setSocialSec] = useState([]);
-    const [taxRate,setTaxRate] = useState([])
-    const [input1,setInput1] = useState([])
+	const [income, setIncome] = useState();
+	const [taxableIncome, setTaxableIncome] = useState();
+	const [tax, setTax] = useState();
+	const [deduction, setDeduction] = useState();
+    const [IRA,setIRA] = useState()
+	const [FinalTakeHome, setFinalTakeHome] = useState();
+    const [socialSec, setSocialSec] = useState();
+    const [taxRate,setTaxRate] = useState()
 
 	function handleChangeIncome(event) {
 		setIncome(event.target.value);
@@ -16,12 +16,12 @@ function Base() {
 	function handleChangeDeduction(event) {
 		setDeduction(event.target.value);
     }
-    function handleChange(event) {
-        setInput1(event.target.value)
+    function handleIRAChange(event) {
+        setIRA(event.target.value)
     }
     function handleSubmit(event) {
         event.preventDefault();
-       console.log(input1)
+       console.log('t')
     }
 	function handleCalculateTax(event) {
 		event.preventDefault();
@@ -164,16 +164,12 @@ function Base() {
 					placeholder='Deduction'
 					type='text'
 					onChange={handleChangeDeduction}></input>
-
-				<button type='submit'>Calculate </button>
-			</form>
-			<form onSubmit={handleSubmit}>
-				<select onChange={handleChange}>
-					<option value='Income'>Income </option>
-					<option value='Bonus'>Bonus </option>
-					<option value='Cash'>Cash </option>
-				</select>
-                <button type='submit'>Submit</button>
+				<input
+					required
+					placeholder='401K or IRA Contribution Deduction'
+					type='text'
+					onChange={handleIRAChange}></input>
+				<button type='submit'>Calculate Tax</button>
 			</form>
 			<h3> Break Down</h3>
 			<h4> Your Annual Income is ${income}</h4>
