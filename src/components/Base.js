@@ -1,19 +1,19 @@
 import React, { useState } from 'react';
 
 function Base() {
-	const [enteredIncome, setEnteredIncome] = useState();
-	const [taxableIncome, setTaxableIncome] = useState()
-	const [tax, setTax] = useState();
-	const [deduction, setDeduction] = useState();
-    const [IRA,setIRA] = useState()
-	const [FinalTakeHome, setFinalTakeHome] = useState();
-	const [socialSec, setSocialSec] = useState();
-	const [medicareTax, setMedicareTax] = useState()
+	const [enteredIncome, setEnteredIncome] = useState('');
+	const [taxableIncome, setTaxableIncome] = useState(0)
+	const [tax, setTax] = useState(0);
+	const [deduction, setDeduction] = useState(0);
+    const [IRA,setIRA] = useState(0)
+	const [FinalTakeHome, setFinalTakeHome] = useState(0);
+	const [socialSec, setSocialSec] = useState(0);
+	const [medicareTax, setMedicareTax] = useState(0)
     const [taxRate,setTaxRate] = useState([])
 	const [usState, setUsState] = useState('CA')
 	const [statesTax, setStateTax] = useState(0)
 	const [payType, setPayType] = useState('')
-	const [annualIncome, setAnnualIncome] = useState()
+	const [annualIncome, setAnnualIncome] = useState(0)
 	
 	function handleChangeIncome(event) {
 		setEnteredIncome(parseInt(event.target.value));
@@ -66,21 +66,9 @@ function Base() {
 	}
 	function calculateTaxableIncome () {
 			setTaxableIncome(grossIncome - deduction - IRA)
-		
-		
-		// taxincome = grossIncome - deduction - IRA
-		// return taxincome
 	}
-	
  	const handleCalculateTax = (event) => {
 		event.preventDefault();
-		
-		
-		//setTaxableIncome(taxincome)
-		//stateTaxRate()
-		
-		//console.log(fica)
-		//console.log(taxincome)
 		let takeHome;
 		let fedBracket1 = 9950;
 		let fedBracket2 = 40525 - 9951;
@@ -97,16 +85,16 @@ function Base() {
 		let fedTaxRate6 = 0.35;
 		let fedTaxRate7 = 0.37;
 		console.log(grossIncome,deduction)
-		if (grossIncome <= deduction) {
+		if (grossIncome <= deduction || grossIncome <= 12200) {
 			console.log(
 				'your income is less than standard deduction you are not required to file tax return'
 			);
 			return
 		} else {
 		handleGrossIncome()	
-		handleFica();	
+		handleFica();
 		calculateTaxableIncome();
-			if (grossIncome > 510300) {
+			if (grossIncome > 523601) {
 			takeHome =
 				grossIncome -
 				fica -
@@ -121,7 +109,7 @@ function Base() {
 			setTax(grossIncome - takeHome);
 			setFinalTakeHome(takeHome);
 			setTaxRate(((grossIncome - takeHome) / grossIncome) * 100);
-		} else if (grossIncome >= 209426 && grossIncome <= 510300) {
+		} else if (grossIncome >= 209426 && grossIncome <= 523601) {
 			fedBracket6 = grossIncome - 209426;
 			takeHome =
 				grossIncome -
@@ -137,7 +125,7 @@ function Base() {
 			setFinalTakeHome(takeHome);
 			setTaxRate(((grossIncome - takeHome) / grossIncome) * 100);
 		} else if (grossIncome >= 164926 && grossIncome <= 209425) {
-			fedBracket5 = grossIncome - 160726;
+			fedBracket5 = grossIncome - 164926;
 			takeHome =
 				grossIncome -
 				fica -
@@ -176,14 +164,13 @@ function Base() {
 			setTax(grossIncome - takeHome);
 			setFinalTakeHome(takeHome);
 			setTaxRate(((grossIncome - takeHome) / grossIncome) * 100);
-		} else if (grossIncome >= 9951 && grossIncome <= 40525) {
+		} else if (grossIncome >= 12201 && grossIncome <= 40525) {
 			fedBracket2 = grossIncome - 9950;
 			takeHome =
 				grossIncome -
 				fica -
 				medicare -
 				(fedBracket2 * fedTaxRate2 + fedBracket1 * fedTaxRate1);
-
 			setTax(grossIncome - takeHome);
 			setFinalTakeHome(takeHome);
 			setTaxRate(((grossIncome - takeHome) / grossIncome) * 100);
@@ -192,37 +179,37 @@ function Base() {
 
 	return (
 		<div>
-			Please enter your Annual Income
+			Please enter your Pay Rate
 			<form onSubmit={handleCalculateTax}>
 				<input
 					placeholder='Pay Rate'
 					type='text'
 					onChange={handleChangeIncome}></input>
 				<label className='radio-button-label'>
-					Hourly
 					<input
 						className='radio-button'
 						type='radio'
-						name='tearOff'
+						name='payType'
 						value='Hourly'
+						//checked={payType === 'Hourly'}
 						required
 						onChange={handlePayTypeChange}></input>
+					Hourly
 				</label>
 				<label className='radio-button-label'>
-					Annually
 					<input
 						className='radio-button'
 						type='radio'
-						name='tearOff'
+						name='payType'
 						value='Annually'
+						//checked={payType === 'Annually'}
 						required
 						onChange={handlePayTypeChange}></input>
+					Annually
 				</label>
 				<select onChange={handleStateChange}>
 					<optgroup label='State'>
-						<option value='CA' defaultValue>
-							California{' '}
-						</option>
+						<option value='CA'>California </option>
 						<option value='AK'>Alaska </option>
 						<option value='FL'>Florida </option>
 						<option value='NH'>New Hampshire </option>
@@ -247,16 +234,44 @@ function Base() {
 				<button type='submit'>Calculate </button>
 			</form>
 			<h3> Break Down</h3>
-			<h4> Your Annual Income Is ${annualIncome}</h4>
-			<p>Your Deduction Is ${deduction}</p>
-			<p>Your Total Taxable Income Is ${taxableIncome}</p>
-			<p>Your Social Security Tax Is ${socialSec}</p>
-			<p>Your Medicare Tax Is ${medicareTax}</p>
-			<p>Your Tax Burden Is ${tax}</p>
-			<p>Your Effective Tax Rate Is {taxRate}% </p>
+			<h4>
+				{' '}
+				Your Annual Income Is $
+				{annualIncome.toLocaleString('en', { maximumFractionDigits: 2 })}
+			</h4>
+			<p>
+				Your Deduction Is $
+				{deduction.toLocaleString('en', { maximumFractionDigits: 2 })}
+			</p>
+			<p>
+				Your Total Taxable Income Is $
+				{taxableIncome.toLocaleString('en', { maximumFractionDigits: 2 })}
+			</p>
+			<p>
+				Your Social Security Tax Is $
+				{socialSec.toLocaleString('en', { maximumFractionDigits: 2 })}
+			</p>
+			<p>
+				Your Medicare Tax Is $
+				{medicareTax.toLocaleString('en', { maximumFractionDigits: 2 })}
+			</p>
+			<p>
+				Your Tax Burden Is $
+				{tax.toLocaleString('en', { maximumFractionDigits: 2 })}
+			</p>
+			<p>
+				Your Effective Tax Rate Is{' '}
+				{taxRate.toLocaleString('en', { maximumFractionDigits: 2 })}%{' '}
+			</p>
 			<p>Your State Is {usState} </p>
-			<p>Your State Tax Rate Is {statesTax * 100}% </p>
-			<p>Your Final Take Home Is ${FinalTakeHome}</p>
+			<p>
+				Your State Tax Rate Is{' '}
+				{(statesTax * 100).toLocaleString('en', { maximumFractionDigits: 2 })}%{' '}
+			</p>
+			<p>
+				Your Final Take Home Is $
+				{FinalTakeHome.toLocaleString('en', { maximumFractionDigits: 2 })}
+			</p>
 		</div>
 	);
 }
