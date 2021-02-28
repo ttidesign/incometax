@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 
 function Base() {
-	const [grossIncome, setGrossIncome] = useState();
+	const [enteredIncome, setEnteredIncome] = useState();
 	const [taxableIncome, setTaxableIncome] = useState()
 	const [tax, setTax] = useState();
 	const [deduction, setDeduction] = useState();
@@ -12,9 +12,14 @@ function Base() {
     const [taxRate,setTaxRate] = useState([])
 	const [usState, setUsState] = useState('CA')
 	const [statesTax, setStateTax] = useState(0)
+	const [payType, setPayType] = useState('')
+	const [annualIncome, setAnnualIncome] = useState()
 	
 	function handleChangeIncome(event) {
-		setGrossIncome(parseInt(event.target.value));
+		setEnteredIncome(parseInt(event.target.value));
+	}
+	function handlePayTypeChange(event) {
+		setPayType(event.target.value)
 	}
 	function handleChangeDeduction(event) {
 		setDeduction(parseInt(event.target.value));
@@ -26,9 +31,18 @@ function Base() {
 		event.preventDefault();
 		setUsState(event.target.value)
 	}
-	//let taxincome;
+	let grossIncome;
 	let fica;
 	let medicare;
+	function handleGrossIncome() {
+		if(payType === 'Hourly'){
+			grossIncome = enteredIncome * 40 * 52
+		} else {
+			grossIncome = enteredIncome
+		}
+		setAnnualIncome(grossIncome)
+		return grossIncome
+	}
 	function handleFica() {
 		if (grossIncome >= 137700) {
 			fica = 8537.4;
@@ -51,7 +65,9 @@ function Base() {
 		}
 	}
 	function calculateTaxableIncome () {
-		setTaxableIncome(grossIncome - deduction - IRA)
+			setTaxableIncome(grossIncome - deduction - IRA)
+		
+		
 		// taxincome = grossIncome - deduction - IRA
 		// return taxincome
 	}
@@ -87,6 +103,7 @@ function Base() {
 			);
 			return
 		} else {
+		handleGrossIncome()	
 		handleFica();	
 		calculateTaxableIncome();
 			if (grossIncome > 510300) {
@@ -178,9 +195,29 @@ function Base() {
 			Please enter your Annual Income
 			<form onSubmit={handleCalculateTax}>
 				<input
-					placeholder='Income'
+					placeholder='Pay Rate'
 					type='text'
 					onChange={handleChangeIncome}></input>
+				<label className='radio-button-label'>
+					Hourly
+					<input
+						className='radio-button'
+						type='radio'
+						name='tearOff'
+						value='Hourly'
+						required
+						onChange={handlePayTypeChange}></input>
+				</label>
+				<label className='radio-button-label'>
+					Annually
+					<input
+						className='radio-button'
+						type='radio'
+						name='tearOff'
+						value='Annually'
+						required
+						onChange={handlePayTypeChange}></input>
+				</label>
 				<select onChange={handleStateChange}>
 					<optgroup label='State'>
 						<option value='CA' defaultValue>
@@ -210,16 +247,16 @@ function Base() {
 				<button type='submit'>Calculate </button>
 			</form>
 			<h3> Break Down</h3>
-			<h4> Your Annual Income is ${grossIncome}</h4>
-			<p>Your Deduction is ${deduction}</p>
-			<p>Your Total Taxable Income is ${taxableIncome}</p>
-			<p>Your Take Home is ${FinalTakeHome}</p>
-			<p>Your Social Security Tax is ${socialSec}</p>
-			<p>Your Medicare Tax is ${medicareTax}</p>
-			<p>Your Tax burden is ${tax}</p>
-			<p>Your Effective tax rate is {taxRate}% </p>
-			<p>Your State is {usState} </p>
-			<p>Your State tax rate is {statesTax * 100}% </p>
+			<h4> Your Annual Income Is ${annualIncome}</h4>
+			<p>Your Deduction Is ${deduction}</p>
+			<p>Your Total Taxable Income Is ${taxableIncome}</p>
+			<p>Your Social Security Tax Is ${socialSec}</p>
+			<p>Your Medicare Tax Is ${medicareTax}</p>
+			<p>Your Tax Burden Is ${tax}</p>
+			<p>Your Effective Tax Rate Is {taxRate}% </p>
+			<p>Your State Is {usState} </p>
+			<p>Your State Tax Rate Is {statesTax * 100}% </p>
+			<p>Your Final Take Home Is ${FinalTakeHome}</p>
 		</div>
 	);
 }
