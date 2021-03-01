@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 
 function Base() {
-	const [enteredIncome, setEnteredIncome] = useState('');
+	const [enteredIncome, setEnteredIncome] = useState();
 	const [taxableIncome, setTaxableIncome] = useState(0)
 	const [tax, setTax] = useState(0);
 	const [deduction, setDeduction] = useState(0);
@@ -11,7 +11,8 @@ function Base() {
 	const [medicareTax, setMedicareTax] = useState(0)
     const [taxRate,setTaxRate] = useState([])
 	const [usState, setUsState] = useState('CA')
-	const [statesTax, setStateTax] = useState(0)
+	const [stateTax, setStateTax] = useState(0)
+	const [stateTaxRate, setStateTaxRate] = useState(0)
 	const [payType, setPayType] = useState('')
 	const [annualIncome, setAnnualIncome] = useState(0)
 	
@@ -32,16 +33,20 @@ function Base() {
 		setUsState(event.target.value)
 	}
 	let grossIncome;
+	let taxIncome
 	let fica;
 	let medicare;
-	function handleGrossIncome() {
+	let stTax;
+	function handleGrossAndTaxableIncome() {
 		if(payType === 'Hourly'){
 			grossIncome = enteredIncome * 40 * 52
 		} else {
 			grossIncome = enteredIncome
 		}
+		taxIncome = grossIncome - deduction -IRA
 		setAnnualIncome(grossIncome)
-		return grossIncome
+		setTaxableIncome(taxIncome);	
+		return (grossIncome, taxIncome)
 	}
 	function handleFica() {
 		if (grossIncome >= 137700) {
@@ -55,20 +60,100 @@ function Base() {
 		setMedicareTax(medicare)
 		return (fica,medicare)
 	}
-	function stateTaxRate () {
+	function calculateStateTaxRate () {
 		let state =['WA','NV','WY','SD','TX','TN','FL','NH','AK']
+		let stateTaxRate1;
+		let stateTaxRate2;
+		let stateTaxRate3;
+		let stateTaxRate4;
+		let stateTaxRate5;
+		let stateTaxRate6;
+		let stateTaxRate7;
+		let stateTaxRate8;
+		let stateTaxRate9;
+		let stateBracket1;
+		let stateBracket2;
+		let stateBracket3;
+		let stateBracket4;
+		let stateBracket5;
+		let stateBracket6;
+		let stateBracket7;
+		let stateBracket8;
+		let stateBracket9;
+		let totalStateTax
 		if (state.includes(usState)) {
 			setStateTax(0)
 		}
-		else {
-			setStateTax(0.13)
-		}
-	}
-	function calculateTaxableIncome () {
-			setTaxableIncome(grossIncome - deduction - IRA)
+		else if(usState === 'CA'){
+			stateTaxRate1 = 0.01
+			stateTaxRate2 = 0.02
+			stateTaxRate3 = 0.04
+			stateTaxRate4 = 0.06
+			stateTaxRate5 = 0.08
+			stateTaxRate6 = 0.093
+			stateTaxRate7 = 0.103
+			stateTaxRate8 = 0.113
+			stateTaxRate9 = 0.123
+			stateBracket1 = 8932 
+			stateBracket2 = 21175 - 8933 
+			stateBracket3 = 33421 - 21176 
+			stateBracket4 = 46394 - 33422
+			stateBracket5 = 58634 - 46395 
+			stateBracket6 = 299508 - 58635
+			stateBracket7 = 359407 - 299509
+			stateBracket8 = 599012 - 359408 
+			stateBracket9 = taxIncome - 599013; 
+			if(taxIncome < deduction) {
+				console.log('you are not required to file tax')
+			} else if (taxIncome >= 8932 && taxIncome <= 21175) {
+				stateBracket2 = taxIncome - 8933
+				totalStateTax = (stateTaxRate1 * stateBracket1 + stateBracket2 * stateTaxRate2)
+				setStateTax(totalStateTax)
+				setStateTaxRate(totalStateTax/taxIncome * 100)
+			} else if ( taxIncome >= 21176 && taxIncome <= 33421 ) {
+				stateBracket3 = taxIncome - 21175
+				totalStateTax = (stateBracket1 * stateTaxRate1 + stateBracket2 * stateTaxRate2 + stateBracket3 * stateTaxRate3)
+				setStateTax(totalStateTax);
+				setStateTaxRate((totalStateTax / taxIncome) * 100);
+			} else if ( taxIncome >= 33422 && taxIncome <= 46394 ) {
+				stateBracket4 = taxIncome - 33421
+				totalStateTax = (stateBracket1 * stateTaxRate1 + stateBracket2 * stateTaxRate2 + stateBracket3 * stateTaxRate3 + stateBracket4 * stateTaxRate4)
+				setStateTax(totalStateTax);
+				setStateTaxRate((totalStateTax / taxIncome) * 100);
+			} else if ( taxIncome >= 46395 && taxIncome <= 58634 ) {
+				stateBracket5 = taxIncome - 46394
+				totalStateTax = (stateBracket1 * stateTaxRate1 + stateBracket2 * stateTaxRate2 + stateBracket3 * stateTaxRate3 + stateBracket4 * stateTaxRate4 + stateBracket5 * stateTaxRate5)
+				setStateTax(totalStateTax);
+				setStateTaxRate((totalStateTax / taxIncome) * 100);
+			} else if ( taxIncome >= 58635 && taxIncome <= 299508 ) {
+				stateBracket6 = taxIncome - 58634
+				totalStateTax = (stateBracket1 * stateTaxRate1 + stateBracket2 * stateTaxRate2 + stateBracket3 * stateTaxRate3 + stateBracket4 * stateTaxRate4 + stateBracket5 * stateTaxRate5 + stateBracket6 * stateTaxRate6)
+				setStateTax(totalStateTax);
+				setStateTaxRate((totalStateTax / taxIncome) * 100);
+			} else if ( taxIncome >= 299509 && taxIncome <= 359407 ) {
+				stateBracket7 = taxIncome - 299508
+				totalStateTax = (stateBracket1 * stateTaxRate1 + stateBracket2 * stateTaxRate2 + stateBracket3 * stateTaxRate3 + stateBracket4 * stateTaxRate4 + stateBracket5 * stateTaxRate5 + stateBracket6 * stateTaxRate6 + stateBracket7 * stateTaxRate7)
+				setStateTax(totalStateTax);
+				setStateTaxRate((totalStateTax / taxIncome) * 100);
+			} else if ( taxIncome >= 359408 && taxIncome <= 599012 ) {
+				stateBracket8 = taxIncome - 359407
+				totalStateTax = (stateBracket1 * stateTaxRate1 + stateBracket2 * stateTaxRate2 + stateBracket3 * stateTaxRate3 + stateBracket4 * stateTaxRate4 + stateBracket5 * stateTaxRate5 + stateBracket6 * stateTaxRate6 + stateBracket7 * stateTaxRate7 + stateBracket8 * stateTaxRate8)
+				setStateTax(totalStateTax);
+				setStateTaxRate((totalStateTax / taxIncome) * 100);
+			} else if ( taxIncome >= 599013 ) {
+				stateBracket9 = taxIncome - 599012
+				totalStateTax = (stateBracket1 * stateTaxRate1 + stateBracket2 * stateTaxRate2 + stateBracket3 * stateTaxRate3 + stateBracket4 * stateTaxRate4 + stateBracket5 * stateTaxRate5 + stateBracket6 * stateTaxRate6 + stateBracket7 * stateTaxRate7 + stateBracket8 * stateTaxRate8 + stateBracket9 * stateTaxRate9)
+				setStateTax(totalStateTax);
+				setStateTaxRate((totalStateTax / taxIncome) * 100);
+			} 
+		} stTax = totalStateTax
+		return stTax 
 	}
  	const handleCalculateTax = (event) => {
 		event.preventDefault();
+		handleGrossAndTaxableIncome();
+		handleFica();
+		calculateStateTaxRate();
 		let takeHome;
 		let fedBracket1 = 9950;
 		let fedBracket2 = 40525 - 9951;
@@ -76,7 +161,7 @@ function Base() {
 		let fedBracket4 = 164925 - 86376;
 		let fedBracket5 = 209425 - 164926;
 		let fedBracket6 = 528600 - 209426;
-		let fedBracket7 = grossIncome - 523601;
+		let fedBracket7 = taxIncome - 523601;
 		let fedTaxRate1 = 0.1;
 		let fedTaxRate2 = 0.12;
 		let fedTaxRate3 = 0.22;
@@ -84,19 +169,16 @@ function Base() {
 		let fedTaxRate5 = 0.32;
 		let fedTaxRate6 = 0.35;
 		let fedTaxRate7 = 0.37;
-		console.log(grossIncome,deduction)
-		if (grossIncome <= deduction || grossIncome <= 12200) {
+		if (grossIncome <= deduction || grossIncome <= 12200 || taxIncome <= deduction || taxIncome <= 12200) {
 			console.log(
 				'your income is less than standard deduction you are not required to file tax return'
 			);
 			return
 		} else {
-		handleGrossIncome()	
-		handleFica();
-		calculateTaxableIncome();
-			if (grossIncome > 523601) {
+			if (taxIncome > 523601) {
 			takeHome =
 				grossIncome -
+				stTax-
 				fica -
 				medicare -
 				(fedBracket7 * fedTaxRate7 +
@@ -109,10 +191,11 @@ function Base() {
 			setTax(grossIncome - takeHome);
 			setFinalTakeHome(takeHome);
 			setTaxRate(((grossIncome - takeHome) / grossIncome) * 100);
-		} else if (grossIncome >= 209426 && grossIncome <= 523601) {
-			fedBracket6 = grossIncome - 209426;
+		} else if (taxIncome >= 209426 && taxIncome <= 523601) {
+			fedBracket6 = taxIncome - 209426;
 			takeHome =
 				grossIncome -
+				stTax-
 				fica -
 				medicare -
 				(fedBracket6 * fedTaxRate6 +
@@ -124,10 +207,11 @@ function Base() {
 			setTax(grossIncome - takeHome);
 			setFinalTakeHome(takeHome);
 			setTaxRate(((grossIncome - takeHome) / grossIncome) * 100);
-		} else if (grossIncome >= 164926 && grossIncome <= 209425) {
-			fedBracket5 = grossIncome - 164926;
+		} else if (taxIncome >= 164926 && taxIncome <= 209425) {
+			fedBracket5 = taxIncome - 164926;
 			takeHome =
 				grossIncome -
+				stTax -
 				fica -
 				medicare -
 				(fedBracket5 * fedTaxRate5 +
@@ -138,10 +222,11 @@ function Base() {
 			setTax(grossIncome - takeHome);
 			setFinalTakeHome(takeHome);
 			setTaxRate(((grossIncome - takeHome) / grossIncome) * 100);
-		} else if (grossIncome >= 86376 && grossIncome <= 164925) {
-			fedBracket4 = grossIncome - 86376;
+		} else if (taxIncome >= 86376 && taxIncome <= 164925) {
+			fedBracket4 = taxIncome - 86376;
 			takeHome =
 				grossIncome -
+				stTax -
 				fica -
 				medicare -
 				(fedBracket4 * fedTaxRate4 +
@@ -152,10 +237,11 @@ function Base() {
 			setTax(grossIncome - takeHome);
 			setFinalTakeHome(takeHome);
 			setTaxRate(((grossIncome - takeHome) / grossIncome) * 100);
-		} else if (grossIncome >= 40526 && grossIncome <= 86375) {
-			fedBracket3 = grossIncome - 40526;
+		} else if (taxIncome >= 40526 && taxIncome <= 86375) {
+			fedBracket3 = taxIncome - 40526;
 			takeHome =
 				grossIncome -
+				stTax -
 				fica -
 				medicare -
 				(fedBracket3 * fedTaxRate3 +
@@ -164,10 +250,11 @@ function Base() {
 			setTax(grossIncome - takeHome);
 			setFinalTakeHome(takeHome);
 			setTaxRate(((grossIncome - takeHome) / grossIncome) * 100);
-		} else if (grossIncome >= 12201 && grossIncome <= 40525) {
-			fedBracket2 = grossIncome - 9950;
+		} else if (taxIncome >= 12201 && taxIncome <= 40525) {
+			fedBracket2 = taxIncome - 9950;
 			takeHome =
 				grossIncome -
+				stTax -
 				fica -
 				medicare -
 				(fedBracket2 * fedTaxRate2 + fedBracket1 * fedTaxRate1);
@@ -176,7 +263,6 @@ function Base() {
 			setTaxRate(((grossIncome - takeHome) / grossIncome) * 100);
 		}}
 	}
-
 	return (
 		<div>
 			Please enter your Pay Rate
@@ -264,9 +350,10 @@ function Base() {
 				{taxRate.toLocaleString('en', { maximumFractionDigits: 2 })}%{' '}
 			</p>
 			<p>Your State Is {usState} </p>
+			<p>Your State Tax Is {stateTax} </p>
 			<p>
-				Your State Tax Rate Is{' '}
-				{(statesTax * 100).toLocaleString('en', { maximumFractionDigits: 2 })}%{' '}
+				Your Effective State Tax Rate Is{' '}
+				{stateTaxRate.toLocaleString('en', { maximumFractionDigits: 2 })}%{' '}
 			</p>
 			<p>
 				Your Final Take Home Is $
