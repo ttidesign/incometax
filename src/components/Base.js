@@ -440,118 +440,270 @@ function Base() {
 		calculateFedTax()
 	}
 	return (
-		<div>
-			Please enter your Pay Rate
-			<form onSubmit={handleCalculateTax}>
-				<input
-					placeholder='Pay Rate'
-					type='text'
-					onChange={handleChangeIncome}></input>
-				<label className='radio-button-label'>
+		<div className='main-board'>
+			<div className='left-div'>
+				<h5> Take Home Calculator</h5>
+				<h4 className='header4'> Your Pay Rate </h4>
+				<form onSubmit={handleCalculateTax}>
 					<input
-						className='radio-button'
-						type='radio'
-						name='payType'
-						value='Hourly'
-						required
-						onChange={handlePayTypeChange}></input>
-					Hourly
-				</label>
-				<label className='radio-button-label'>
+						placeholder='Pay Rate'
+						type='text'
+						onChange={handleChangeIncome}
+						className='input_field'></input>
+					<label className='radio-button-label'>
+						<input
+							className='radio-button'
+							type='radio'
+							name='payType'
+							value='Hourly'
+							required
+							onChange={handlePayTypeChange}></input>
+						Hourly
+					</label>
+					<label className='radio-button-label'>
+						<input
+							className='radio-button'
+							type='radio'
+							name='payType'
+							value='Annually'
+							required
+							onChange={handlePayTypeChange}></input>
+						Annually
+					</label>
+					<div>
+						{' '}
+						Filing Status
+						<label className='radio-button-label'>
+							<input
+								className='radio-button'
+								type='radio'
+								name='fileStatus'
+								value='Single'
+								required
+								onChange={handleFileStatusChange}></input>
+							Single
+						</label>
+						<label className='radio-button-label'>
+							<input
+								className='radio-button'
+								type='radio'
+								name='fileStatus'
+								value='Married'
+								required
+								onChange={handleFileStatusChange}></input>
+							Married
+						</label>
+						<select onChange={handleStateChange}>
+							<optgroup label='State'>
+								<option value='CA'>California </option>
+								<option value='AK'>Alaska </option>
+								<option value='FL'>Florida </option>
+								<option value='NH'>New Hampshire </option>
+								<option value='NV'>Nevada </option>
+								<option value='TN'>Tennessee </option>
+								<option value='TX'>Texas </option>
+								<option value='SD'>South Dakota </option>
+								<option value='WA'>Washington </option>
+								<option value='WY'>Wyoming </option>
+							</optgroup>
+						</select>
+					</div>
+					<p>Standard or Itemize Deduction</p>
 					<input
-						className='radio-button'
-						type='radio'
-						name='payType'
-						value='Annually'
 						required
-						onChange={handlePayTypeChange}></input>
-					Annually
-				</label>
-				<div> File Status
-				<label className='radio-button-label'>
+						placeholder='Deduction'
+						type='text'
+						onChange={handleChangeDeduction}></input>
 					<input
-						className='radio-button'
-						type='radio'
-						name='fileStatus'
-						value='Single'
 						required
-						onChange={handleFileStatusChange}></input>
-					Single
-				</label>
-				<label className='radio-button-label'>
-					<input
-						className='radio-button'
-						type='radio'
-						name='fileStatus'
-						value='Married'
-						required
-						onChange={handleFileStatusChange}></input>
-					Married
-				</label>
-				<select onChange={handleStateChange}>
-					<optgroup label='State'>
-						<option value='CA'>California </option>
-						<option value='AK'>Alaska </option>
-						<option value='FL'>Florida </option>
-						<option value='NH'>New Hampshire </option>
-						<option value='NV'>Nevada </option>
-						<option value='TN'>Tennessee </option>
-						<option value='TX'>Texas </option>
-						<option value='SD'>South Dakota </option>
-						<option value='WA'>Washington </option>
-						<option value='WY'>Wyoming </option>
-					</optgroup>
-				</select>
-				</div>
-				<input
-					required
-					placeholder='Deduction'
-					type='text'
-					onChange={handleChangeDeduction}></input>
-				<input
-					required
-					placeholder='401K and/or IRA Contribution'
-					type='text'
-					onChange={handleIRAChange}></input>
-				<button type='submit'>Calculate </button>
-			</form>
-			<h3> Break Down</h3>
-			<h4>
-				Your Annual Income Is: $
-				{annualIncome.toLocaleString('en', { maximumFractionDigits: 2 })}
-			</h4>
-			<p>
-				Your Deduction Is: $
-				{deduction.toLocaleString('en', { maximumFractionDigits: 2 })}
-			</p>
-			<p>
-				Your Total Taxable Income Is: $
-				{taxableIncome.toLocaleString('en', { maximumFractionDigits: 2 })}
-			</p>
-			<p>
-				Your Social Security Tax Is: $
-				{socialSec.toLocaleString('en', { maximumFractionDigits: 2 })}
-			</p>
-			<p>
-				Your Medicare Tax Is: $
-				{medicareTax.toLocaleString('en', { maximumFractionDigits: 2 })}
-			</p>
-			<p>
-				Your Tax Burden Is: $
-				{tax.toLocaleString('en', { maximumFractionDigits: 2 })}
-			</p>
-			<p>
-				Your Effective Tax Rate Is: {taxRate.toLocaleString('en', { maximumFractionDigits: 2 })}%
-			</p>
-			<p>Your State Is: {usState} </p>
-			<p>Your State Tax Is: {stateTax.toLocaleString('en', { maximumFractionDigits: 2 })} </p>
-			<p>
-				Your Effective State Tax Rate Is: {stateTaxRate.toLocaleString('en', { maximumFractionDigits: 2 })}%
-			</p>
-			<p>
-				Your Final Take Home Is: $
-				{FinalTakeHome.toLocaleString('en', { maximumFractionDigits: 2 })}
-			</p>
+						placeholder='401K and/or IRA Contribution'
+						type='text'
+						onChange={handleIRAChange}></input>
+					<button type='submit'>Calculate </button>
+				</form>
+				<h3> Break Down</h3>
+				<h4>
+					Your Annual Income Is: $
+					{annualIncome.toLocaleString('en', { maximumFractionDigits: 2 })}
+				</h4>
+				<p>
+					Your Deduction Is: $
+					{deduction.toLocaleString('en', { maximumFractionDigits: 2 })}
+				</p>
+				<p>
+					Your Total Taxable Income Is: $
+					{taxableIncome.toLocaleString('en', { maximumFractionDigits: 2 })}
+				</p>
+				<p>
+					Your Social Security Tax Is: $
+					{socialSec.toLocaleString('en', { maximumFractionDigits: 2 })}
+				</p>
+				<p>
+					Your Medicare Tax Is: $
+					{medicareTax.toLocaleString('en', { maximumFractionDigits: 2 })}
+				</p>
+				<p>
+					Your Tax Burden Is: $
+					{tax.toLocaleString('en', { maximumFractionDigits: 2 })}
+				</p>
+				<p>
+					Your Effective Tax Rate Is:{' '}
+					{taxRate.toLocaleString('en', { maximumFractionDigits: 2 })}%
+				</p>
+				<p>Your State Is: {usState} </p>
+				<p>
+					Your State Tax Is:{' '}
+					{stateTax.toLocaleString('en', { maximumFractionDigits: 2 })}{' '}
+				</p>
+				<p>
+					Your Effective State Tax Rate Is:{' '}
+					{stateTaxRate.toLocaleString('en', { maximumFractionDigits: 2 })}%
+				</p>
+				<p>
+					Your Final Take Home Is: $
+					{FinalTakeHome.toLocaleString('en', { maximumFractionDigits: 2 })}
+				</p>
+			</div>
+			<div className='right-div'>
+				Information
+				<fieldset>
+					<legend> Federal Tax Bracket 2021</legend>
+					<div className='tax-table'>
+						<table>
+							<tbody>
+								<tr>
+									<th> Tax Rate </th>
+									<th> For Single Individuals </th>
+									<th> Married Filling Joint Return </th>
+								</tr>
+								<tr>
+									<td> 10% </td>
+									<td> Up to $9,950 </td>
+									<td> Up to $19,900 </td>
+								</tr>
+								<tr>
+									<td> 12% </td>
+									<td> $9,951 to $40,525</td>
+									<td> $19,901 to $81,050 </td>
+								</tr>
+								<tr>
+									<td> 22% </td>
+									<td> $40,526 to $86,375 </td>
+									<td> $81,051 to $172,750 </td>
+								</tr>
+								<tr>
+									<td> 24% </td>
+									<td> $86,376 to $164,925 </td>
+									<td> $172,751 to $329,850 </td>
+								</tr>
+								<tr>
+									<td> 32% </td>
+									<td> $164,926 to $209,425 </td>
+									<td> $329,851 to $418,850</td>
+								</tr>
+								<tr>
+									<td> 35% </td>
+									<td> $209,426 to $523,600 </td>
+									<td> $418,851 to $628,300 </td>
+								</tr>
+								<tr>
+									<td> 37% </td>
+									<td> $523,601 Or More </td>
+									<td> $628,301 Or More</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</fieldset>
+				<fieldset>
+					<legend> Standard Deduction 2021</legend>
+					<table>
+						<tbody>
+							<tr>
+								<th> Filling Status </th>
+								<th> Deduction Amount </th>
+							</tr>
+							<tr>
+								<td> Single </td>
+								<td> $12,550</td>
+							</tr>
+							<tr>
+								<td> Married Filling Jointly </td>
+								<td> $25,100</td>
+							</tr>
+						</tbody>
+					</table>
+				</fieldset>
+				<fieldset>
+					<legend> California Tax Bracket 2021</legend>
+					<div className='tax-table'>
+						<table>
+							<tbody>
+								<tr>
+									<th> Tax Rate </th>
+									<th> For Single Individuals </th>
+									<th> Married Filling Joint Return </th>
+								</tr>
+								<tr>
+									<td> 1% </td>
+									<td> Up to $8,932 </td>
+									<td> Up to $17,864 </td>
+								</tr>
+								<tr>
+									<td> 2% </td>
+									<td> $8,933 to $21,175</td>
+									<td> $17,865 to $42,350 </td>
+								</tr>
+								<tr>
+									<td> 4% </td>
+									<td> $21,176 to $33,421</td>
+									<td> $42,351 to $66,842 </td>
+								</tr>
+								<tr>
+									<td> 6% </td>
+									<td> $33,422 to $46,394 </td>
+									<td> $66,843 to $92,788 </td>
+								</tr>
+								<tr>
+									<td> 8% </td>
+									<td> $46,395 to $58,634</td>
+									<td> $92,789 to $117,268</td>
+								</tr>
+								<tr>
+									<td> 9.3% </td>
+									<td> $58,635 to $299,508</td>
+									<td> $117,269 to $599,016 </td>
+								</tr>
+								<tr>
+									<td> 10.3% </td>
+									<td> $299,509 to $359,407</td>
+									<td> $599,017 to $718,814 </td>
+								</tr>
+								<tr>
+									<td> 11.3% </td>
+									<td> $359,408 to $599,012</td>
+									<td> $718,815 to $1,198,024</td>
+								</tr>
+								<tr>
+									<td> 12.3% </td>
+									<td> $599,013 Or More</td>
+									<td> $1,198,025 Or More</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</fieldset>
+				<p>
+					Tax Bracket Information Taken from:
+					<a href='https://taxfoundation.org/2021-tax-brackets/'>
+						Tax Foundation
+					</a>
+					<span> and </span>
+					<a href='https://www.nerdwallet.com/article/taxes/california-state-tax'>
+						Nerd Wallet
+					</a>
+				</p>
+			</div>
 		</div>
 	);
 }
