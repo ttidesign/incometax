@@ -72,3 +72,6 @@ margin-bottom:10px
 .calculate_button:hover {
     background-color: rgb(241,211,2);
 }
+.radio-button-label{
+    margin-right: 10px;
+}

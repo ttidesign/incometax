@@ -5,19 +5,19 @@ function Base() {
 	const [taxableIncome, setTaxableIncome] = useState(0);
 	const [tax, setTax] = useState(0);
 	const [deduction, setDeduction] = useState(0);
-    const [IRA,setIRA] = useState(0)
+    const [IRA,setIRA] = useState(0);
 	const [FinalTakeHome, setFinalTakeHome] = useState(0);
 	const [socialSec, setSocialSec] = useState(0);
-	const [medicareTax, setMedicareTax] = useState(0)
-	const [taxRate,setTaxRate] = useState(0)
+	const [medicareTax, setMedicareTax] = useState(0);
+	const [taxRate,setTaxRate] = useState(0);
 	const [fedTaxRate, setFedTaxRate] = useState(0);
-	const [usState, setUsState] = useState('CA')
+	const [usState, setUsState] = useState('CA');
 	const [stateTax, setStateTax] = useState(0);
-	const [fedTax, setFedTax] = useState(0)
-	const [stateTaxRate, setStateTaxRate] = useState(0)
-	const [payType, setPayType] = useState('')
-	const [fileStatus, setFileStatus] = useState('')
-	const [annualIncome, setAnnualIncome] = useState(0)
+	const [fedTax, setFedTax] = useState(0);
+	const [stateTaxRate, setStateTaxRate] = useState(0);
+	const [payType, setPayType] = useState('');
+	const [fileStatus, setFileStatus] = useState('');
+	const [annualIncome, setAnnualIncome] = useState(0);
 	
 	function handleChangeIncome(event) {
 		setEnteredIncome(parseInt(event.target.value));
@@ -39,7 +39,7 @@ function Base() {
 		setUsState(event.target.value)
 	}
 	let grossIncome;
-	let taxIncome
+	let taxIncome;
 	let fica;
 	let medicare;
 	let stTax;
@@ -62,13 +62,13 @@ function Base() {
 	let	stateTaxRate7 = 0.103;
 	let	stateTaxRate8 = 0.113;
 	let	stateTaxRate9 = 0.123;
-	let fedBracket1 
-	let fedBracket2 
-	let fedBracket3 
-	let fedBracket4 
-	let fedBracket5
-	let fedBracket6 
-	let fedBracket7
+	let fedBracket1; 
+	let fedBracket2;
+	let fedBracket3; 
+	let fedBracket4; 
+	let fedBracket5;
+	let fedBracket6; 
+	let fedBracket7;
 	let fedTaxRate1 = 0.1;
 	let fedTaxRate2 = 0.12;
 	let fedTaxRate3 = 0.22;
@@ -83,7 +83,7 @@ function Base() {
 			grossIncome = enteredIncome
 		}
 		taxIncome = grossIncome - deduction -IRA
-		setAnnualIncome(grossIncome)
+		setAnnualIncome(grossIncome);
 		setTaxableIncome(taxIncome);	
 		return (grossIncome, taxIncome)
 	}
@@ -105,9 +105,9 @@ function Base() {
 			fedBracket5 = 209425 - 164926;
 			fedBracket6 = 528600 - 209426;
 			fedBracket7 = taxIncome - 523601; 
-		} else {
+		} else if (fileStatus === 'Married') {
 			stateBracket1 = 17864;
-			stateBracket2 = 42350 - 17845;
+			stateBracket2 = 42350 - 17865;
 			stateBracket3 = 66842 - 42351;
 			stateBracket4 = 92788 - 66843;
 			stateBracket5 = 117268 - 92789;
@@ -122,6 +122,23 @@ function Base() {
 			fedBracket5 = 418850 - 329851;
 			fedBracket6 = 628300 - 418851;
 			fedBracket7 = taxIncome - 628301; 
+		} else {
+			stateBracket1 = 17864;
+			stateBracket2 = 42353 - 17865;
+			stateBracket3 = 54597 - 42354;
+			stateBracket4 = 67569 - 54598;
+			stateBracket5 = 79812 - 67570;
+			stateBracket6 = 407329 - 79813;
+			stateBracket7 = 488796 - 407330;
+			stateBracket8 = 814658 - 488797;
+			stateBracket9 = taxIncome - 814659;
+			fedBracket1 = 14200;
+			fedBracket2 = 54200 - 14201;
+			fedBracket3 = 86350 - 54201;
+			fedBracket4 = 164900 - 86351;
+			fedBracket5 = 209400 - 164901;
+			fedBracket6 = 523600 - 209401;
+			fedBracket7 = taxIncome - 523601; 
 		}
 		return (stateTaxRate1, stateTaxRate2, stateTaxRate3, stateTaxRate4, stateTaxRate5, stateTaxRate6, stateTaxRate7, stateTaxRate8, stateTaxRate9, fedTaxRate1, fedTaxRate2, fedTaxRate3, fedTaxRate4, fedTaxRate5, fedTaxRate6, fedTaxRate7)
 	}
@@ -132,34 +149,34 @@ function Base() {
 		} else {
 			fica = grossIncome * 0.062;		
 		}
-		setSocialSec(fica)
-		setMedicareTax(medicare)
+		setSocialSec(fica);
+		setMedicareTax(medicare);
 		return (fica,medicare)
 	}
 	function calculateStateTaxRate () {
 		let state =['WA','NV','WY','SD','TX','TN','FL','NH','AK']
-		let totalStateTax
+		let totalStateTax;
 		if (state.includes(usState)) {
 			totalStateTax = 0;
-			setStateTax(0)
+			setStateTax(0);
 		}
 		else if(usState === 'CA'){		
 			if(taxIncome < deduction) {
 				prompt('You are not required to file tax')
 				//Single Filer
 			} else if ( fileStatus === 'Single' && taxIncome >= 8932 && taxIncome <= 21175) {
-				stateBracket2 = taxIncome - 8933
-				totalStateTax = (stateTaxRate1 * stateBracket1 + stateBracket2 * stateTaxRate2)
-				setStateTax(totalStateTax)
-				setStateTaxRate(totalStateTax/taxIncome * 100)
+				stateBracket2 = taxIncome - 8933;
+				totalStateTax = (stateTaxRate1 * stateBracket1 + stateBracket2 * stateTaxRate2);
+				setStateTax(totalStateTax);
+				setStateTaxRate(totalStateTax/taxIncome * 100);
 			} else if ( fileStatus === 'Single' && taxIncome >= 21176 && taxIncome <= 33421 ) {
-				stateBracket3 = taxIncome - 21175
-				totalStateTax = (stateBracket1 * stateTaxRate1 + stateBracket2 * stateTaxRate2 + stateBracket3 * stateTaxRate3)
+				stateBracket3 = taxIncome - 21175;
+				totalStateTax = (stateBracket1 * stateTaxRate1 + stateBracket2 * stateTaxRate2 + stateBracket3 * stateTaxRate3);
 				setStateTax(totalStateTax);
 				setStateTaxRate((totalStateTax / taxIncome) * 100);
 			} else if ( fileStatus === 'Single' && taxIncome >= 33422 && taxIncome <= 46394 ) {
-				stateBracket4 = taxIncome - 33421
-				totalStateTax = (stateBracket1 * stateTaxRate1 + stateBracket2 * stateTaxRate2 + stateBracket3 * stateTaxRate3 + stateBracket4 * stateTaxRate4)
+				stateBracket4 = taxIncome - 33421;
+				totalStateTax = (stateBracket1 * stateTaxRate1 + stateBracket2 * stateTaxRate2 + stateBracket3 * stateTaxRate3 + stateBracket4 * stateTaxRate4);
 				setStateTax(totalStateTax);
 				setStateTaxRate((totalStateTax / taxIncome) * 100);
 			} else if ( fileStatus === 'Single' && taxIncome >= 46395 && taxIncome <= 58634 ) {
@@ -230,6 +247,48 @@ function Base() {
 				setStateTax(totalStateTax);
 				setStateTaxRate((totalStateTax / taxIncome) * 100);
 			} 
+			// Heads of Households Filling
+			else if ( fileStatus === 'HoH' && taxIncome >= 17865 && taxIncome <= 42353) {
+				stateBracket2 = taxIncome - 17865
+				totalStateTax = (stateTaxRate1 * stateBracket1 + stateBracket2 * stateTaxRate2)
+				setStateTax(totalStateTax)
+				setStateTaxRate(totalStateTax/taxIncome * 100)
+			} else if ( fileStatus === 'HoH' && taxIncome >= 42354 && taxIncome <= 54597 ) {
+				stateBracket3 = taxIncome - 42354
+				totalStateTax = (stateBracket1 * stateTaxRate1 + stateBracket2 * stateTaxRate2 + stateBracket3 * stateTaxRate3)
+				setStateTax(totalStateTax);
+				setStateTaxRate((totalStateTax / taxIncome) * 100);
+			} else if ( fileStatus === 'HoH' && taxIncome >= 54598 && taxIncome <= 67569 ) {
+				stateBracket4 = taxIncome - 54598
+				totalStateTax = (stateBracket1 * stateTaxRate1 + stateBracket2 * stateTaxRate2 + stateBracket3 * stateTaxRate3 + stateBracket4 * stateTaxRate4)
+				setStateTax(totalStateTax);
+				setStateTaxRate((totalStateTax / taxIncome) * 100);
+			} else if ( fileStatus === 'HoH' && taxIncome >= 67570 && taxIncome <= 79812 ) {
+				stateBracket5 = taxIncome - 67570
+				totalStateTax = (stateBracket1 * stateTaxRate1 + stateBracket2 * stateTaxRate2 + stateBracket3 * stateTaxRate3 + stateBracket4 * stateTaxRate4 + stateBracket5 * stateTaxRate5)
+				setStateTax(totalStateTax);
+				setStateTaxRate((totalStateTax / taxIncome) * 100);
+			} else if (fileStatus === 'HoH' && taxIncome >= 79813 && taxIncome <= 407329 ) {
+				stateBracket6 = taxIncome - 79813
+				totalStateTax = (stateBracket1 * stateTaxRate1 + stateBracket2 * stateTaxRate2 + stateBracket3 * stateTaxRate3 + stateBracket4 * stateTaxRate4 + stateBracket5 * stateTaxRate5 + stateBracket6 * stateTaxRate6)
+				setStateTax(totalStateTax);
+				setStateTaxRate((totalStateTax / taxIncome) * 100);
+			} else if ( fileStatus === 'HoH' && taxIncome >= 407330 && taxIncome <= 488796 ) {
+				stateBracket7 = taxIncome - 407330
+				totalStateTax = (stateBracket1 * stateTaxRate1 + stateBracket2 * stateTaxRate2 + stateBracket3 * stateTaxRate3 + stateBracket4 * stateTaxRate4 + stateBracket5 * stateTaxRate5 + stateBracket6 * stateTaxRate6 + stateBracket7 * stateTaxRate7)
+				setStateTax(totalStateTax);
+				setStateTaxRate((totalStateTax / taxIncome) * 100);
+			} else if ( fileStatus === 'HoH' && taxIncome >= 488797 && taxIncome <= 814658 ) {
+				stateBracket8 = taxIncome - 488797
+				totalStateTax = (stateBracket1 * stateTaxRate1 + stateBracket2 * stateTaxRate2 + stateBracket3 * stateTaxRate3 + stateBracket4 * stateTaxRate4 + stateBracket5 * stateTaxRate5 + stateBracket6 * stateTaxRate6 + stateBracket7 * stateTaxRate7 + stateBracket8 * stateTaxRate8)
+				setStateTax(totalStateTax);
+				setStateTaxRate((totalStateTax / taxIncome) * 100);
+			} else if ( fileStatus === 'HoH' && taxIncome >= 814659 ) {
+				stateBracket9 = taxIncome - 814659
+				totalStateTax = (stateBracket1 * stateTaxRate1 + stateBracket2 * stateTaxRate2 + stateBracket3 * stateTaxRate3 + stateBracket4 * stateTaxRate4 + stateBracket5 * stateTaxRate5 + stateBracket6 * stateTaxRate6 + stateBracket7 * stateTaxRate7 + stateBracket8 * stateTaxRate8 + stateBracket9 * stateTaxRate9)
+				setStateTax(totalStateTax);
+				setStateTaxRate((totalStateTax / taxIncome) * 100);
+			} 
 		} stTax = totalStateTax
 		return stTax 
 	}
@@ -247,7 +306,7 @@ function Base() {
 			return;
 		} else {
 			//Single Filer
-			if (fileStatus === 'Single' && taxIncome > 523601) {
+			if (fileStatus === 'Single' && taxIncome >= 523601) {
 					federalTax = 
 					(fedBracket7 * fedTaxRate7 +
 						fedBracket6 * fedTaxRate6 +
@@ -328,7 +387,7 @@ function Base() {
 				setFinalTakeHome(takeHome);
 			}
 			//Married Filer
-			else if (fileStatus === 'Married' && taxIncome > 628301) {
+			else if (fileStatus === 'Married' && taxIncome >= 628301) {
 				federalTax = 
 					(fedBracket7 * fedTaxRate7 +
 						fedBracket6 * fedTaxRate6 +
@@ -418,6 +477,97 @@ function Base() {
 				setTaxRate(((grossIncome - takeHome) / grossIncome) * 100);
 				setFinalTakeHome(takeHome);
 			}
+			//head of household filling
+			else if (fileStatus === 'HoH' && taxIncome >= 523601) {
+				federalTax = 
+					(fedBracket7 * fedTaxRate7 +
+						fedBracket6 * fedTaxRate6 +
+						fedBracket5 * fedTaxRate5 +
+						fedBracket4 * fedTaxRate4 +
+						fedBracket3 * fedTaxRate3 +
+						fedBracket2 * fedTaxRate2 +
+						fedBracket1 * fedTaxRate1);
+				takeHome = grossIncome - federalTax - stTax - fica - medicare;
+				setFedTax(federalTax);
+				setFedTaxRate((federalTax / grossIncome) * 100);
+				setTax(grossIncome - takeHome);
+				setTaxRate(((grossIncome - takeHome) / grossIncome) * 100);
+				setFinalTakeHome(takeHome);
+			} else if (
+				fileStatus === 'HoH' && taxIncome >= 209401 && taxIncome <= 523600
+			) {
+				fedBracket6 = taxIncome - 209401;
+				federalTax =
+					(fedBracket6 * fedTaxRate6 +
+						fedBracket5 * fedTaxRate5 +
+						fedBracket4 * fedTaxRate4 +
+						fedBracket3 * fedTaxRate3 +
+						fedBracket2 * fedTaxRate2 +
+						fedBracket1 * fedTaxRate1);
+				takeHome = grossIncome - federalTax - stTax - fica - medicare;
+				setFedTax(federalTax);
+				setFedTaxRate((federalTax / grossIncome) * 100);
+				setTax(grossIncome - takeHome);
+				setTaxRate(((grossIncome - takeHome) / grossIncome) * 100);
+				setFinalTakeHome(takeHome);
+			} else if (
+				fileStatus === 'HoH' && taxIncome >= 164901 && taxIncome <= 209400
+			) {
+				fedBracket5 = taxIncome - 164901;
+				federalTax = 
+					(fedBracket5 * fedTaxRate5 +
+						fedBracket4 * fedTaxRate4 +
+						fedBracket3 * fedTaxRate3 +
+						fedBracket2 * fedTaxRate2 +
+						fedBracket1 * fedTaxRate1);
+				takeHome = grossIncome - federalTax - stTax - fica - medicare;
+				setFedTax(federalTax);
+				setFedTaxRate((federalTax / grossIncome) * 100);
+				setTax(grossIncome - takeHome);
+				setTaxRate(((grossIncome - takeHome) / grossIncome) * 100);
+				setFinalTakeHome(takeHome);
+			} else if (
+				fileStatus === 'HoH' && taxIncome >= 86351 && taxIncome <= 164900
+			) {
+				fedBracket4 = taxIncome - 86351;
+				federalTax =
+					(fedBracket4 * fedTaxRate4 +
+						fedBracket3 * fedTaxRate3 +
+						fedBracket2 * fedTaxRate2 +
+						fedBracket1 * fedTaxRate1);
+				takeHome = grossIncome - federalTax - stTax - fica - medicare;
+				setFedTax(federalTax);
+				setFedTaxRate((federalTax / grossIncome) * 100);
+				setTax(grossIncome - takeHome);
+				setTaxRate(((grossIncome - takeHome) / grossIncome) * 100);
+				setFinalTakeHome(takeHome);
+			} else if (
+				fileStatus === 'HoH' && taxIncome >= 54201 && taxIncome <= 86350
+			) {
+				fedBracket3 = taxIncome - 54201;
+				federalTax = 
+					(fedBracket3 * fedTaxRate3 +
+						fedBracket2 * fedTaxRate2 +
+						fedBracket1 * fedTaxRate1);
+				takeHome = grossIncome - federalTax - stTax - fica - medicare;
+				setFedTax(federalTax);
+				setFedTaxRate((federalTax / grossIncome) * 100);
+				setTax(grossIncome - takeHome);
+				setTaxRate(((grossIncome - takeHome) / grossIncome) * 100);
+				setFinalTakeHome(takeHome);
+			} else if (
+				fileStatus === 'HoH' && taxIncome >= 14201 && taxIncome <= 54200
+			) {
+				fedBracket2 = taxIncome - 14201;
+				federalTax = 
+					(fedBracket2 * fedTaxRate2 + fedBracket1 * fedTaxRate1);
+				takeHome = grossIncome - federalTax - stTax - fica - medicare;
+				setFedTax(federalTax);
+				setFedTaxRate((federalTax / grossIncome) * 100);
+				setTax(grossIncome - takeHome);
+				setTaxRate(((grossIncome - takeHome) / grossIncome) * 100);
+				setFinalTakeHome(takeHome);
+			}
 		}
 	}
  	const handleCalculateTax = (event) => {
@@ -481,6 +631,16 @@ function Base() {
 								onChange={handleFileStatusChange}></input>
 							Married
 						</label>
+						<label className='radio-button-label'>
+							<input
+								className='radio-button'
+								type='radio'
+								name='fileStatus'
+								value='HoH'
+								required
+								onChange={handleFileStatusChange}></input>
+							Heads of Households (HoH)
+						</label>
 						<h4> State</h4>
 						<select onChange={handleStateChange}>
 							<optgroup label='State'>
@@ -499,12 +659,16 @@ function Base() {
 					</div>
 					<h4>Deductions</h4>
 					<div className='deduction-field'>
-						<input className='input_field'
+						<input
+							className='input_field'
 							required
 							placeholder='Deduction'
 							type='text'
 							onChange={handleChangeDeduction}></input>
-							<label className='label-for-deduction'> Standard or Itemized Deduction</label>
+						<label className='label-for-deduction'>
+							{' '}
+							Standard or Itemized Deduction
+						</label>
 					</div>
 					<div className='deduction-field'>
 						<input
@@ -513,11 +677,20 @@ function Base() {
 							placeholder='Retirement Contribution'
 							type='text'
 							onChange={handleIRAChange}></input>
-							<label className='label-for-deduction'> 401(k) or IRA Contribution </label>
+						<label className='label-for-deduction'>
+							{' '}
+							401(k) or IRA Contribution{' '}
+						</label>
 					</div>
-					<button type='submit' className='calculate_button'> Calculate </button>
+					<button type='submit' className='calculate_button'>
+						{' '}
+						Calculate{' '}
+					</button>
 				</form>
 				<h4> Break Down</h4>
+				<p>
+					Your Filling Status: {fileStatus}
+				</p>
 				<p>
 					Your Annual Income: $
 					{annualIncome.toLocaleString('en', { maximumFractionDigits: 2 })}
@@ -547,26 +720,35 @@ function Base() {
 					{fedTax.toLocaleString('en', { maximumFractionDigits: 2 })}
 				</p>
 				<p>
-					Your Effective Federal Tax Rate: {fedTaxRate.toLocaleString('en', { maximumFractionDigits: 2 })}%
+					Your Effective Federal Tax Rate:{' '}
+					{fedTaxRate.toLocaleString('en', { maximumFractionDigits: 2 })}%
 				</p>
 				<p>Your State: {usState} </p>
 				<p>
-					Your State Tax:
-					${stateTax.toLocaleString('en', { maximumFractionDigits: 2 })}
+					Your State Tax: $
+					{stateTax.toLocaleString('en', { maximumFractionDigits: 2 })}
 				</p>
 				<p>
-					Your Effective State Tax Rate: {stateTaxRate.toLocaleString('en', { maximumFractionDigits: 2 })}%
+					Your Effective State Tax Rate:{' '}
+					{stateTaxRate.toLocaleString('en', { maximumFractionDigits: 2 })}%
 				</p>
-				<p>Your Total Tax Burden: 
-					${tax.toLocaleString('en',{maximumFractionDigits:2})}
+				<p>
+					Your Total Tax Burden: $
+					{tax.toLocaleString('en', { maximumFractionDigits: 2 })}
 				</p>
-				<p> Your Total Effective Tax Rate: {taxRate.toLocaleString('en', { maximumFractionDigits: 2 })}%
+				<p>
+					{' '}
+					Your Total Effective Tax Rate:{' '}
+					{taxRate.toLocaleString('en', { maximumFractionDigits: 2 })}%
 				</p>
 				<p>
 					Your Final Take Home: $
 					{FinalTakeHome.toLocaleString('en', { maximumFractionDigits: 2 })}
 				</p>
-				<p>*These calculations do not take into consideration of subtraction from benefits co-pay and others subtractions </p>
+				<p>
+					*These calculations do not take into consideration of subtraction from
+					benefits co-pay and other subtractions{' '}
+				</p>
 			</div>
 			<div className='right-div'>
 				<h4>Information </h4>
@@ -578,7 +760,7 @@ function Base() {
 								<tr>
 									<th> Tax Rate </th>
 									<th> For Single Individuals </th>
-									<th> Married Filling Joint Return </th>
+									<th> For Married Filling Joint Return </th>
 								</tr>
 								<tr>
 									<td> 10% </td>
@@ -649,7 +831,7 @@ function Base() {
 								<tr>
 									<th> Tax Rate </th>
 									<th> For Single Individuals </th>
-									<th> Married Filling Joint Return </th>
+									<th> For Married Filling Joint Return </th>
 								</tr>
 								<tr>
 									<td> 1% </td>
@@ -701,7 +883,8 @@ function Base() {
 					</div>
 				</fieldset>
 				<p>
-					Tax Bracket Information Taken from: <a href='https://taxfoundation.org/2021-tax-brackets/'>
+					Tax Bracket Information Taken from:{' '}
+					<a href='https://taxfoundation.org/2021-tax-brackets/'>
 						Tax Foundation
 					</a>
 					<span> and </span>
