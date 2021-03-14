@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-
+import {Doughnut} from '@reactchartjs/react-chart.js'
 function Base() {
 	const [enteredIncome, setEnteredIncome] = useState();
 	const [taxableIncome, setTaxableIncome] = useState(0);
@@ -76,6 +76,32 @@ function Base() {
 	let fedTaxRate5 = 0.32;
 	let fedTaxRate6 = 0.35;
 	let fedTaxRate7 = 0.37;
+	let pieChart = {
+		labels: ['Social Security Tax', 'Medicare Tax', 'Federal Income Tax', 'State Income Tax', 'Take Home'],
+
+		datasets: [
+			{
+				data: [socialSec.toFixed(2), medicareTax.toFixed(2), fedTax.toFixed(2), stateTax.toFixed(2), FinalTakeHome.toFixed(2)],
+				backgroundColor: [
+					'rgba(241,211,2,1)',
+					'#B7452D',
+					'#1A8099',
+					'#949FB1',
+					'#1A71B1',
+					'#fff',
+				],
+				borderColor:['rgba(241,211,2,0.3)'],
+				hoverBackgroundColor: [
+					'#FF5A5E',
+					'#5AD3D1',
+					'#FFC870',
+					'#A8B3C5',
+					'#616774',
+					'#DA92DB',
+				],
+			},
+		],
+	};
 	function handleGrossAndTaxableIncome() {
 		if(payType === 'Hourly'){
 			grossIncome = enteredIncome * 40 * 52
@@ -688,67 +714,68 @@ function Base() {
 					</button>
 				</form>
 				<h4> Break Down</h4>
-				<p>
-					Your Filling Status: {fileStatus}
-				</p>
-				<p>
-					Your Annual Income: $
-					{annualIncome.toLocaleString('en', { maximumFractionDigits: 2 })}
-				</p>
-				<p>
-					Your Deduction: $
-					{deduction.toLocaleString('en', { maximumFractionDigits: 2 })}
-				</p>
-				<p>
-					Your Pretax 401(k) / IRA Contribution: $
-					{IRA.toLocaleString('en', { maximumFractionDigits: 2 })}
-				</p>
-				<p>
-					Your Total Taxable Income: $
-					{taxableIncome.toLocaleString('en', { maximumFractionDigits: 2 })}
-				</p>
-				<p>
-					Your Social Security Tax: $
-					{socialSec.toLocaleString('en', { maximumFractionDigits: 2 })}
-				</p>
-				<p>
-					Your Medicare Tax: $
-					{medicareTax.toLocaleString('en', { maximumFractionDigits: 2 })}
-				</p>
-				<p>
-					Your Federal Tax: $
-					{fedTax.toLocaleString('en', { maximumFractionDigits: 2 })}
-				</p>
-				<p>
-					Your Effective Federal Tax Rate:{' '}
-					{fedTaxRate.toLocaleString('en', { maximumFractionDigits: 2 })}%
-				</p>
-				<p>Your State: {usState} </p>
-				<p>
-					Your State Tax: $
-					{stateTax.toLocaleString('en', { maximumFractionDigits: 2 })}
-				</p>
-				<p>
-					Your Effective State Tax Rate:{' '}
-					{stateTaxRate.toLocaleString('en', { maximumFractionDigits: 2 })}%
-				</p>
-				<p>
-					Your Total Tax Burden: $
-					{tax.toLocaleString('en', { maximumFractionDigits: 2 })}
-				</p>
-				<p>
-					{' '}
-					Your Total Effective Tax Rate:{' '}
-					{taxRate.toLocaleString('en', { maximumFractionDigits: 2 })}%
-				</p>
-				<p>
-					Your Final Take Home: $
-					{FinalTakeHome.toLocaleString('en', { maximumFractionDigits: 2 })}
-				</p>
+				<div className='break'>
+					<p className='break-down'>Your Filling Status: <span> {fileStatus} </span> </p>
+					<p className='break-down'>
+						Your Annual Income: <span> $
+						{annualIncome.toLocaleString('en', { maximumFractionDigits: 2 })} </span>
+					</p>
+					<p>
+						Your Deduction: $
+						{deduction.toLocaleString('en', { maximumFractionDigits: 2 })}
+					</p>
+					<p>
+						Your Pretax 401(k) / IRA Contribution: $
+						{IRA.toLocaleString('en', { maximumFractionDigits: 2 })}
+					</p>
+					<p>
+						Your Total Taxable Income: $
+						{taxableIncome.toLocaleString('en', { maximumFractionDigits: 2 })}
+					</p>
+					<p>
+						Your Social Security Tax: $
+						{socialSec.toLocaleString('en', { maximumFractionDigits: 2 })}
+					</p>
+					<p>
+						Your Medicare Tax: $
+						{medicareTax.toLocaleString('en', { maximumFractionDigits: 2 })}
+					</p>
+					<p>
+						Your Federal Tax: $
+						{fedTax.toLocaleString('en', { maximumFractionDigits: 2 })}
+					</p>
+					<p>
+						Your Effective Federal Tax Rate:{' '}
+						{fedTaxRate.toLocaleString('en', { maximumFractionDigits: 2 })}%
+					</p>
+					<p>Your State: {usState} </p>
+					<p>
+						Your State Tax: $
+						{stateTax.toLocaleString('en', { maximumFractionDigits: 2 })}
+					</p>
+					<p>
+						Your Effective State Tax Rate:{' '}
+						{stateTaxRate.toLocaleString('en', { maximumFractionDigits: 2 })}%
+					</p>
+					<p>
+						Your Total Tax Burden: $
+						{tax.toLocaleString('en', { maximumFractionDigits: 2 })}
+					</p>
+					<p>
+						{' '}
+						Your Total Effective Tax Rate:{' '}
+						{taxRate.toLocaleString('en', { maximumFractionDigits: 2 })}%
+					</p>
+					<p>
+						Your Final Take Home: $
+						{FinalTakeHome.toLocaleString('en', { maximumFractionDigits: 2 })}
+					</p>
+				</div>
 				<p>
 					*These calculations do not take into consideration of subtraction from
 					benefits co-pay and other subtractions{' '}
 				</p>
+				<Doughnut data={pieChart} options={{ responsive: true }} />
 			</div>
 			<div className='right-div'>
 				<h4>Information </h4>

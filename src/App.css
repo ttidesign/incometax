@@ -75,3 +75,9 @@ margin-bottom:10px
 .radio-button-label{
     margin-right: 10px;
 }
+.break{
+    width: 400px;
+}
+.break-down{
+    display: flex;justify-content: space-between;
+}
