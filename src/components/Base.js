@@ -688,9 +688,7 @@ function Base() {
 					</button>
 				</form>
 				<h4> Break Down</h4>
-				<p>
-					Your Filling Status: {fileStatus}
-				</p>
+				<p>Your Filling Status: {fileStatus}</p>
 				<p>
 					Your Annual Income: $
 					{annualIncome.toLocaleString('en', { maximumFractionDigits: 2 })}
@@ -760,42 +758,119 @@ function Base() {
 								<tr>
 									<th> Tax Rate </th>
 									<th> For Single Individuals </th>
-									<th> For Married Filling Joint Return </th>
+									<th> For Married Filling Jointly </th>
+									<th> For Heads of Households </th>
 								</tr>
 								<tr>
 									<td> 10% </td>
 									<td> Up to $9,950 </td>
 									<td> Up to $19,900 </td>
+									<td> Up to $14,200 </td>
 								</tr>
 								<tr>
 									<td> 12% </td>
-									<td> $9,951 to $40,525</td>
+									<td> $9,951 to $40,525 </td>
 									<td> $19,901 to $81,050 </td>
+									<td> $14,201 to $54,200 </td>
 								</tr>
 								<tr>
 									<td> 22% </td>
 									<td> $40,526 to $86,375 </td>
 									<td> $81,051 to $172,750 </td>
+									<td> $54,201 to $86,350 </td>
 								</tr>
 								<tr>
 									<td> 24% </td>
 									<td> $86,376 to $164,925 </td>
 									<td> $172,751 to $329,850 </td>
+									<td> $86,351 to $164,900 </td>
 								</tr>
 								<tr>
 									<td> 32% </td>
 									<td> $164,926 to $209,425 </td>
-									<td> $329,851 to $418,850</td>
+									<td> $329,851 to $418,850 </td>
+									<td> $164,901 to $209,400 </td>
 								</tr>
 								<tr>
 									<td> 35% </td>
 									<td> $209,426 to $523,600 </td>
 									<td> $418,851 to $628,300 </td>
+									<td> $209,401 to $523,600 </td>
 								</tr>
 								<tr>
 									<td> 37% </td>
 									<td> $523,601 Or More </td>
-									<td> $628,301 Or More</td>
+									<td> $628,301 Or More </td>
+									<td> $523,601 or more </td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</fieldset>
+				<fieldset>
+					<legend> California Tax Bracket 2021</legend>
+					<div className='tax-table'>
+						<table>
+							<tbody>
+								<tr>
+									<th> Tax Rate </th>
+									<th> For Single Individuals </th>
+									<th> For Married Filling Jointly </th>
+									<th> For Heads of Households </th>
+								</tr>
+								<tr>
+									<td> 1% </td>
+									<td> Up to $8,932 </td>
+									<td> Up to $17,864 </td>
+									<td> Up to $17,864 </td>
+								</tr>
+								<tr>
+									<td> 2% </td>
+									<td> $8,933 to $21,175 </td>
+									<td> $17,865 to $42,350 </td>
+									<td> $17,865 to $42,353 </td>
+								</tr>
+								<tr>
+									<td> 4% </td>
+									<td> $21,176 to $33,421 </td>
+									<td> $42,351 to $66,842 </td>
+									<td> $42,354 to $54,597 </td>
+								</tr>
+								<tr>
+									<td> 6% </td>
+									<td> $33,422 to $46,394 </td>
+									<td> $66,843 to $92,788 </td>
+									<td> $54,598 to $67,569 </td>
+								</tr>
+								<tr>
+									<td> 8% </td>
+									<td> $46,395 to $58,634 </td>
+									<td> $92,789 to $117,268 </td>
+									<td> $67,570 to $79,812 </td>
+								</tr>
+								<tr>
+									<td> 9.3% </td>
+									<td> $58,635 to $299,508 </td>
+									<td> $117,269 to $599,016 </td>
+									<td> $79,813 to $407,329 </td>
+								</tr>
+								<tr>
+									<td> 10.3% </td>
+									<td> $299,509 to $359,407 </td>
+									<td> $599,017 to $718,814 </td>
+									<td> $407,330 to $488,796 </td>
+								</tr>
+								<tr>
+									<td> 11.3% </td>
+									<td> $359,408 to $599,012 </td>
+									<td> $718,815 to $1,198,024 </td>
+									<td> $488,797 to $814,658 </td>
+								</tr>
+								<tr>
+									<td> 12.3% </td>
+									<td> $599,013 Or More </td>
+									<td> $1,198,025 Or More </td>
+									<td> $814,659 Or More </td>
 								</tr>
 							</tbody>
 						</table>
@@ -820,67 +895,13 @@ function Base() {
 								<td> $25,100</td>
 								<td> $24,800</td>
 							</tr>
+							<tr>
+								<td> Heads of Households </td>
+								<td> $18,800</td>
+								<td> $18,650</td>
+							</tr>
 						</tbody>
 					</table>
-				</fieldset>
-				<fieldset>
-					<legend> California Tax Bracket 2021</legend>
-					<div className='tax-table'>
-						<table>
-							<tbody>
-								<tr>
-									<th> Tax Rate </th>
-									<th> For Single Individuals </th>
-									<th> For Married Filling Joint Return </th>
-								</tr>
-								<tr>
-									<td> 1% </td>
-									<td> Up to $8,932 </td>
-									<td> Up to $17,864 </td>
-								</tr>
-								<tr>
-									<td> 2% </td>
-									<td> $8,933 to $21,175</td>
-									<td> $17,865 to $42,350 </td>
-								</tr>
-								<tr>
-									<td> 4% </td>
-									<td> $21,176 to $33,421</td>
-									<td> $42,351 to $66,842 </td>
-								</tr>
-								<tr>
-									<td> 6% </td>
-									<td> $33,422 to $46,394 </td>
-									<td> $66,843 to $92,788 </td>
-								</tr>
-								<tr>
-									<td> 8% </td>
-									<td> $46,395 to $58,634</td>
-									<td> $92,789 to $117,268</td>
-								</tr>
-								<tr>
-									<td> 9.3% </td>
-									<td> $58,635 to $299,508</td>
-									<td> $117,269 to $599,016 </td>
-								</tr>
-								<tr>
-									<td> 10.3% </td>
-									<td> $299,509 to $359,407</td>
-									<td> $599,017 to $718,814 </td>
-								</tr>
-								<tr>
-									<td> 11.3% </td>
-									<td> $359,408 to $599,012</td>
-									<td> $718,815 to $1,198,024</td>
-								</tr>
-								<tr>
-									<td> 12.3% </td>
-									<td> $599,013 Or More</td>
-									<td> $1,198,025 Or More</td>
-								</tr>
-							</tbody>
-						</table>
-					</div>
 				</fieldset>
 				<p>
 					Tax Bracket Information Taken from:{' '}

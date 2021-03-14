@@ -41,14 +41,14 @@ a{
 .main-board {
     margin: 0 auto;
     display: flex;
-    width: 1200px;
+    width: 1400px;
 }
 .left-div{
 width: 600px;
 margin-right: 20px;
 }
 .right-div{
-    width: 600px;
+    width: 750px;
     margin-left: 20px;
 }
 .input_field {
