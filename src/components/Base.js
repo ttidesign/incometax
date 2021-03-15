@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-
+import {Doughnut} from '@reactchartjs/react-chart.js'
 function Base() {
 	const [enteredIncome, setEnteredIncome] = useState();
 	const [taxableIncome, setTaxableIncome] = useState(0);
@@ -76,6 +76,34 @@ function Base() {
 	let fedTaxRate5 = 0.32;
 	let fedTaxRate6 = 0.35;
 	let fedTaxRate7 = 0.37;
+	let pieChart = {
+		labels: ['Social Security Tax', 'Medicare Tax', 'Federal Income Tax', 'State Income Tax', 'Take Home'],
+
+		datasets: [
+			{
+				data: [socialSec.toFixed(2), medicareTax.toFixed(2), fedTax.toFixed(2), stateTax.toFixed(2), FinalTakeHome.toFixed(2)],
+				//data: [10, 30, 20, 15, 35],
+				backgroundColor: [
+					'rgba(239, 123, 108,0.3)',
+					'rgba(174, 214, 181,0.3)',
+					'rgba(245, 61, 86,0.3)',
+					'rgba(162, 83, 122,0.3 )',
+					'rgba(241, 211, 2, 0.3)'
+				],
+				borderColor:['rgba(239,123,108,0.7)','rgba(174, 214, 181,0.7)','rgba(245, 61, 86,0.7)','rgba(162, 83, 122, 0.7 )','rgba(241, 211, 2, 0.7)'],
+				borderWidth: '0.5px',
+				borderAlign:'inner',
+				width:'300px',
+				hoverBackgroundColor: [
+					'rgba(239, 123, 108,0.7)',
+					'rgba(174, 214, 181,0.7)',
+					'rgba(245, 61, 86,0.7)',
+					'rgba(162, 83, 122, 0.7 )',
+					'rgba(241, 211, 2,0.7 )'
+				],
+			},
+		],
+	};
 	function handleGrossAndTaxableIncome() {
 		if(payType === 'Hourly'){
 			grossIncome = enteredIncome * 40 * 52
@@ -666,7 +694,6 @@ function Base() {
 							type='text'
 							onChange={handleChangeDeduction}></input>
 						<label className='label-for-deduction'>
-							{' '}
 							Standard or Itemized Deduction
 						</label>
 					</div>
@@ -678,75 +705,92 @@ function Base() {
 							type='text'
 							onChange={handleIRAChange}></input>
 						<label className='label-for-deduction'>
-							{' '}
-							401(k) or IRA Contribution{' '}
+							401(k) or IRA Contribution
 						</label>
 					</div>
 					<button type='submit' className='calculate_button'>
-						{' '}
-						Calculate{' '}
+						Calculate
 					</button>
 				</form>
 				<h4> Break Down</h4>
-				<p>Your Filling Status: {fileStatus}</p>
+				<div className='break'>
+					<p className='break-down'>
+						Your Annual Income: <span className='high-light' > $
+						{annualIncome.toLocaleString('en', { maximumFractionDigits: 2 })} </span>
+					</p>
+					<p className='break-down'>Your Filling Status: <span className='high-light'> {fileStatus} </span> </p>
+					<p className='break-down' >
+						Your Deduction: <span>
+							$
+							{deduction.toLocaleString('en', { maximumFractionDigits: 2 })}
+						</span>
+					</p>
+					<p className='break-down' >
+						Your Pretax 401(k) / IRA Contribution: <span>
+							$
+							{IRA.toLocaleString('en', { maximumFractionDigits: 2 })}
+						</span>
+					</p>
+					<p className='break-down' >
+						Your Total Taxable Income: <span>
+							$
+							{taxableIncome.toLocaleString('en', { maximumFractionDigits: 2 })}
+						</span>
+					</p>
+					<p className='break-down' >
+						Your Social Security Tax: <span className='high-light' >
+							${socialSec.toLocaleString('en', { maximumFractionDigits: 2 })}
+						</span>
+					</p>
+					<p className='break-down' >
+						Your Medicare Tax: <span className='high-light' >
+							${medicareTax.toLocaleString('en', { maximumFractionDigits: 2 })}
+						</span>
+					</p>
+					<p className='break-down' >
+						Your Federal Tax: <span className='high-light' >
+							${fedTax.toLocaleString('en', { maximumFractionDigits: 2 })}
+						</span>
+					</p>
+					<p className='break-down' >
+						Your Effective Federal Tax Rate: 
+						<span>{fedTaxRate.toLocaleString('en', { maximumFractionDigits: 2 })}%</span>
+					</p>
+					<p className='break-down' >Your State: <span>{usState}</span> </p>
+					<p className='break-down' >
+						Your State Tax: <span className='high-light' >
+							${stateTax.toLocaleString('en', { maximumFractionDigits: 2 })}
+						</span>
+					</p>
+					<p className='break-down' >
+						Your Effective State Tax Rate: 
+						<span>{stateTaxRate.toLocaleString('en', { maximumFractionDigits: 2 })}%</span>
+					</p>
+					<p className='break-down' >
+						Your Total Tax Burden: <span>
+							$
+							{tax.toLocaleString('en', { maximumFractionDigits: 2 })}
+						</span>
+					</p>
+					<p className='break-down' >
+						
+						Your Total Effective Tax Rate:<span>
+							
+							{taxRate.toLocaleString('en', { maximumFractionDigits: 2 })}%
+						</span>
+					</p>
+					<p className='break-down' >
+						Your Final Take Home: <span className='high-light' >
+							${FinalTakeHome.toLocaleString('en', { maximumFractionDigits: 2 })}
+						</span>
+					</p>
+				</div>
 				<p>
-					Your Annual Income: $
-					{annualIncome.toLocaleString('en', { maximumFractionDigits: 2 })}
+					*These calculations do not take into consideration of subtraction from <br></br>
+					benefits co-pay and other subtractions 
 				</p>
-				<p>
-					Your Deduction: $
-					{deduction.toLocaleString('en', { maximumFractionDigits: 2 })}
-				</p>
-				<p>
-					Your Pretax 401(k) / IRA Contribution: $
-					{IRA.toLocaleString('en', { maximumFractionDigits: 2 })}
-				</p>
-				<p>
-					Your Total Taxable Income: $
-					{taxableIncome.toLocaleString('en', { maximumFractionDigits: 2 })}
-				</p>
-				<p>
-					Your Social Security Tax: $
-					{socialSec.toLocaleString('en', { maximumFractionDigits: 2 })}
-				</p>
-				<p>
-					Your Medicare Tax: $
-					{medicareTax.toLocaleString('en', { maximumFractionDigits: 2 })}
-				</p>
-				<p>
-					Your Federal Tax: $
-					{fedTax.toLocaleString('en', { maximumFractionDigits: 2 })}
-				</p>
-				<p>
-					Your Effective Federal Tax Rate:{' '}
-					{fedTaxRate.toLocaleString('en', { maximumFractionDigits: 2 })}%
-				</p>
-				<p>Your State: {usState} </p>
-				<p>
-					Your State Tax: $
-					{stateTax.toLocaleString('en', { maximumFractionDigits: 2 })}
-				</p>
-				<p>
-					Your Effective State Tax Rate:{' '}
-					{stateTaxRate.toLocaleString('en', { maximumFractionDigits: 2 })}%
-				</p>
-				<p>
-					Your Total Tax Burden: $
-					{tax.toLocaleString('en', { maximumFractionDigits: 2 })}
-				</p>
-				<p>
-					{' '}
-					Your Total Effective Tax Rate:{' '}
-					{taxRate.toLocaleString('en', { maximumFractionDigits: 2 })}%
-				</p>
-				<p>
-					Your Final Take Home: $
-					{FinalTakeHome.toLocaleString('en', { maximumFractionDigits: 2 })}
-				</p>
-				<p>
-					*These calculations do not take into consideration of subtraction from
-					benefits co-pay and other subtractions{' '}
-				</p>
+				<h4> Chart Break Down</h4>
+				<Doughnut data={pieChart} options={{ responsive: true }}  height={200}/>
 			</div>
 			<div className='right-div'>
 				<h4>Information </h4>
@@ -904,7 +948,7 @@ function Base() {
 					</table>
 				</fieldset>
 				<p>
-					Tax Bracket Information Taken from:{' '}
+					Tax Bracket Information Taken from:
 					<a href='https://taxfoundation.org/2021-tax-brackets/'>
 						Tax Foundation
 					</a>
