@@ -637,7 +637,45 @@ function Base() {
 							onChange={handlePayTypeChange}></input>
 						Hourly
 					</label>
-					<div>
+					<h4>Deductions</h4>
+					<div className='deduction-field'>
+						<input
+							className='input_field'
+							required
+							placeholder='Deduction'
+							type='text'
+							onChange={handleChangeDeduction}></input>
+						<label className='label-for-deduction'>
+							Standard or Itemized Deduction
+						</label>
+					</div>
+					<div className='deduction-field'>
+						<input
+							className='input_field'
+							required
+							placeholder='Retirement Contribution'
+							type='text'
+							onChange={handleIRAChange}></input>
+						<label className='label-for-deduction'>
+							401(k) or IRA Contribution
+						</label>
+						<div>
+							<h4> State</h4>
+							<select onChange={handleStateChange}>
+								<optgroup label='State'>
+									<option value='CA'>California </option>
+									<option value='AK'>Alaska </option>
+									<option value='FL'>Florida </option>
+									<option value='NH'>New Hampshire </option>
+									<option value='NV'>Nevada </option>
+									<option value='TN'>Tennessee </option>
+									<option value='TX'>Texas </option>
+									<option value='SD'>South Dakota </option>
+									<option value='WA'>Washington </option>
+									<option value='WY'>Wyoming </option>
+								</optgroup>
+							</select>
+						</div>
 						<h4> Filing Status </h4>
 						<label className='radio-button-label'>
 							<input
@@ -669,44 +707,6 @@ function Base() {
 								onChange={handleFileStatusChange}></input>
 							Heads of Households (HoH)
 						</label>
-						<h4> State</h4>
-						<select onChange={handleStateChange}>
-							<optgroup label='State'>
-								<option value='CA'>California </option>
-								<option value='AK'>Alaska </option>
-								<option value='FL'>Florida </option>
-								<option value='NH'>New Hampshire </option>
-								<option value='NV'>Nevada </option>
-								<option value='TN'>Tennessee </option>
-								<option value='TX'>Texas </option>
-								<option value='SD'>South Dakota </option>
-								<option value='WA'>Washington </option>
-								<option value='WY'>Wyoming </option>
-							</optgroup>
-						</select>
-					</div>
-					<h4>Deductions</h4>
-					<div className='deduction-field'>
-						<input
-							className='input_field'
-							required
-							placeholder='Deduction'
-							type='text'
-							onChange={handleChangeDeduction}></input>
-						<label className='label-for-deduction'>
-							Standard or Itemized Deduction
-						</label>
-					</div>
-					<div className='deduction-field'>
-						<input
-							className='input_field'
-							required
-							placeholder='Retirement Contribution'
-							type='text'
-							onChange={handleIRAChange}></input>
-						<label className='label-for-deduction'>
-							401(k) or IRA Contribution
-						</label>
 					</div>
 					<button type='submit' className='calculate_button'>
 						Calculate
@@ -715,82 +715,108 @@ function Base() {
 				<h4> Break Down</h4>
 				<div className='break'>
 					<p className='break-down'>
-						Your Annual Income: <span className='high-light' > $
-						{annualIncome.toLocaleString('en', { maximumFractionDigits: 2 })} </span>
-					</p>
-					<p className='break-down'>Your Filling Status: <span className='high-light'> {fileStatus} </span> </p>
-					<p className='break-down' >
-						Your Deduction: <span>
-							$
-							{deduction.toLocaleString('en', { maximumFractionDigits: 2 })}
+						Your Annual Income:{' '}
+						<span className='high-light'>
+							{' '}
+							${annualIncome.toLocaleString('en', {
+								maximumFractionDigits: 2,
+							})}{' '}
 						</span>
 					</p>
-					<p className='break-down' >
-						Your Pretax 401(k) / IRA Contribution: <span>
-							$
-							{IRA.toLocaleString('en', { maximumFractionDigits: 2 })}
+					<p className='break-down'>
+						Your Filling Status:{' '}
+						<span className='high-light'> {fileStatus} </span>{' '}
+					</p>
+					<p className='break-down'>
+						Your Deduction:{' '}
+						<span>
+							${deduction.toLocaleString('en', { maximumFractionDigits: 2 })}
 						</span>
 					</p>
-					<p className='break-down' >
-						Your Total Taxable Income: <span>
+					<p className='break-down'>
+						Your Pretax 401(k) / IRA Contribution:{' '}
+						<span>
+							${IRA.toLocaleString('en', { maximumFractionDigits: 2 })}
+						</span>
+					</p>
+					<p className='break-down'>
+						Your Total Taxable Income:{' '}
+						<span>
 							$
 							{taxableIncome.toLocaleString('en', { maximumFractionDigits: 2 })}
 						</span>
 					</p>
-					<p className='break-down' >
-						Your Social Security Tax: <span className='high-light' >
+					<p className='break-down'>
+						Your Social Security Tax:{' '}
+						<span className='high-light'>
 							${socialSec.toLocaleString('en', { maximumFractionDigits: 2 })}
 						</span>
 					</p>
-					<p className='break-down' >
-						Your Medicare Tax: <span className='high-light' >
+					<p className='break-down'>
+						Your Medicare Tax:{' '}
+						<span className='high-light'>
 							${medicareTax.toLocaleString('en', { maximumFractionDigits: 2 })}
 						</span>
 					</p>
-					<p className='break-down' >
-						Your Federal Tax: <span className='high-light' >
+					<p className='break-down'>
+						Your Federal Tax:{' '}
+						<span className='high-light'>
 							${fedTax.toLocaleString('en', { maximumFractionDigits: 2 })}
 						</span>
 					</p>
-					<p className='break-down' >
-						Your Effective Federal Tax Rate: 
-						<span>{fedTaxRate.toLocaleString('en', { maximumFractionDigits: 2 })}%</span>
+					<p className='break-down'>
+						Your Effective Federal Tax Rate:
+						<span>
+							{fedTaxRate.toLocaleString('en', { maximumFractionDigits: 2 })}%
+						</span>
 					</p>
-					<p className='break-down' >Your State: <span>{usState}</span> </p>
-					<p className='break-down' >
-						Your State Tax: <span className='high-light' >
+					<p className='break-down'>
+						Your State: <span>{usState}</span>{' '}
+					</p>
+					<p className='break-down'>
+						Your State Tax:{' '}
+						<span className='high-light'>
 							${stateTax.toLocaleString('en', { maximumFractionDigits: 2 })}
 						</span>
 					</p>
-					<p className='break-down' >
-						Your Effective State Tax Rate: 
-						<span>{stateTaxRate.toLocaleString('en', { maximumFractionDigits: 2 })}%</span>
-					</p>
-					<p className='break-down' >
-						Your Total Tax Burden: <span>
-							$
-							{tax.toLocaleString('en', { maximumFractionDigits: 2 })}
+					<p className='break-down'>
+						Your Effective State Tax Rate:
+						<span>
+							{stateTaxRate.toLocaleString('en', { maximumFractionDigits: 2 })}%
 						</span>
 					</p>
-					<p className='break-down' >
-						
-						Your Total Effective Tax Rate:<span>
-							
+					<p className='break-down'>
+						Your Total Tax Burden:{' '}
+						<span>
+							${tax.toLocaleString('en', { maximumFractionDigits: 2 })}
+						</span>
+					</p>
+					<p className='break-down'>
+						Your Total Effective Tax Rate:
+						<span>
 							{taxRate.toLocaleString('en', { maximumFractionDigits: 2 })}%
 						</span>
 					</p>
-					<p className='break-down' >
-						Your Final Take Home: <span className='high-light' >
-							${FinalTakeHome.toLocaleString('en', { maximumFractionDigits: 2 })}
+					<p className='break-down'>
+						Your Final Take Home:{' '}
+						<span className='high-light'>
+							$
+							{FinalTakeHome.toLocaleString('en', { maximumFractionDigits: 2 })}
 						</span>
 					</p>
 				</div>
 				<p>
-					*These calculations do not take into consideration of subtraction from <br></br>
-					benefits co-pay and other subtractions 
+					*These calculations do not take into consideration of subtraction from{' '}
+					<br></br>
+					benefits co-pay and other subtractions
 				</p>
 				<h4> Chart Break Down</h4>
-				<Doughnut data={pieChart} options={{ responsive: true }}  height={200}/>
+				<Doughnut
+					className='pie_chart'
+					data={pieChart}
+					options={{ responsive: true }}
+					height={200}
+				/>
 			</div>
 			<div className='right-div'>
 				<h4>Information </h4>
@@ -943,6 +969,63 @@ function Base() {
 								<td> Heads of Households </td>
 								<td> $18,800</td>
 								<td> $18,650</td>
+							</tr>
+						</tbody>
+					</table>
+				</fieldset>
+				<fieldset>
+					<legend> States With Flat Rate Income Tax </legend>
+					<table>
+						<tbody>
+							<tr>
+								<th> State </th>
+								<th> Tax Rate </th>
+								<th> Deduction If Applicable </th>
+							</tr>
+							<tr>
+								<td> Colorado </td>
+								<td> 4.63% </td>
+								<td> $12,400 for Single | $24,400 for Married </td>
+							</tr>
+							<tr>
+								<td> Illinois </td>
+								<td> 4.95% </td>
+								<td> $2725 for Single | $4550 for Married </td>
+							</tr>
+							<tr>
+								<td> Indiana </td>
+								<td> 3.23% </td>
+								<td> $1000 for Single | $2000 for Married </td>
+							</tr>
+							<tr>
+								<td> Kentucky </td>
+								<td> 5.0% </td>
+								<td> $2650 for Single | $2650 for Married </td>
+							</tr>
+							<tr>
+								<td> Massachusetts </td>
+								<td> 5.05% </td>
+								<td> $4400 for Single | $8800 for Married </td>
+							</tr>
+							<tr>
+								<td> Michigan </td>
+								<td> 4.25% </td>
+								<td> $4400 for Single | $8800 for Married </td>
+							</tr>
+							<tr>
+								<td> North Carolina </td>
+								<td> 5.25% </td>
+								<td> $10,750 for Single | $21500 for Married </td>
+							</tr>
+							<tr>
+								<td> Pennsylvania </td>
+								<td> 3.07% </td>
+								<td> No Deduction </td>
+							</tr>
+							<tr>
+								<td> Utah </td>
+								<td> 4.95% </td>
+								<td> $14601 for Single | $29202 for Married </td>
 							</tr>
 						</tbody>
 					</table>

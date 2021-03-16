@@ -1,91 +1,133 @@
-body{
-    margin-left: 20px;
-    background-color: rgb(10,16,13);
-    color: gray
+body {
+	background-color: rgb(10, 16, 13);
+	color: gray;
 }
-fieldset{
-    margin-top:10px;
-    margin-bottom:10px;
-    border: 1px solid rgb(184,216,186);
+fieldset {
+	margin-top: 10px;
+	margin-bottom: 10px;
+	border: 1px solid rgb(184, 216, 186);
 }
-legend{
-    padding-left:5px;
-    padding-right:5px;
-    color:rgb(241,211,2);
-    border-radius: 2px;
+legend {
+	padding-left: 5px;
+	padding-right: 5px;
+	color: rgb(241, 211, 2);
+	border-radius: 2px;
 }
-h4{
-    margin-top:20px;
-    margin-bottom: 10px;
-    width: 450px;
-    color:rgb(184,216,186);
-    color:rgb(241,211,2)
+h4 {
+	margin-top: 20px;
+	margin-bottom: 10px;
+	width: 450px;
+	color: rgb(184, 216, 186);
+	color: rgb(241, 211, 2);
 }
 
-th, td{
-    padding-left:10px;
-    padding-right: 10px;
-    text-align: left;
-    padding-top:5px;
-    padding-bottom: 5px;
-    
+th,
+td {
+	padding-left: 10px;
+	padding-right: 10px;
+	text-align: left;
+	padding-top: 5px;
+	padding-bottom: 5px;
 }
-select{
-    width: 205px;
-    height: 25px;
-    font-size: 14px;
+select {
+	width: 205px;
+	height: 25px;
+	font-size: 14px;
 }
-a{
-    color: lightyellow;
+a {
+	color: lightyellow;
 }
 .main-board {
-    margin: 0 auto;
-    display: flex;
-    width: 1400px;
+	margin: 0 auto;
+	display: flex;
+	width: 1400px;
 }
-.left-div{
-width: 600px;
-margin-left: 20px;
+.left-div {
+	width: 600px;
+	margin-left: 20px;
 }
-.right-div{
-    width: 750px;
-    margin-left: 20px;
+.right-div {
+	width: 750px;
+	margin-left: 20px;
 }
 .input_field {
-width: 200px;
-height: 25px;
-margin-right:15px;
-margin-bottom:10px;
-border:1px solid yellow;
-border-radius: 5px;
+	width: 200px;
+	height: 25px;
+	margin-right: 15px;
+	margin-bottom: 10px;
+	border: 1px solid yellow;
+	border-radius: 5px;
 }
-.input_field:hover{
-    background-color: rgb(239, 245, 180);
+.input_field:hover {
+	background-color: rgb(239, 245, 180);
 }
-.label-for-deduction{
-    font-size: 14px;
+.label-for-deduction {
+	font-size: 14px;
 }
-.calculate_button{
-    width: 150px;
-    height: 40px;
-    border-radius: 10px;
-    border: none;
-    background-color: rgba(241,211,2,0.7);
-    margin-top: 20px;
-    margin-bottom: 20px;
+.calculate_button {
+	width: 150px;
+	height: 40px;
+	border-radius: 10px;
+	border: none;
+	background-color: rgba(241, 211, 2, 0.7);
+	margin-top: 20px;
+	margin-bottom: 20px;
 }
 .calculate_button:hover {
-    background-color: rgb(241,211,2);
+	background-color: rgb(241, 211, 2);
 }
-.radio-button-label{
-    margin-right: 10px;
+.radio-button-label {
+	margin-right: 10px;
 }
-.break{
-    width: 500px;
+.break {
+	width: 500px;
 }
-.break-down{
-    display: flex;justify-content: space-between;
+.break-down {
+	display: flex;
+	justify-content: space-between;
 }
-.high-light{
-    color: rgba(241,211,2,1);
+.high-light {
+	color: rgba(241, 211, 2, 1);
+}
+@media (max-width: 1024px) {
+	.main-board {
+		display: block;
+	}
+	.break{width: 600px;}
+	.left-div,
+	.right-div {
+		margin: 0 auto;
+	}
+}
+@media (max-width: 768px) {
+	.main-board {
+		width: 768px;
+	}
+	.right-div {
+		width: 700px;
+	}
+	th,
+	td {
+		padding-left: 5px;
+		padding-right: 2px;
+		text-align: left;
+		padding-top: 5px;
+		padding-bottom: 5px;
+	}
+}
+@media (max-width: 414px) {
+	.main-board {
+		width: 414px;
+	}
+	.left-div {
+		width: 400px;
+		font-size: 12px;
+	}
+	.break {
+		width: 400px;
+	}
+	.right-div {
+		width: 400px;
+		font-size: 10px;
+	}
 }
