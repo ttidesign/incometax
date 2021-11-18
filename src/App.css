@@ -37,6 +37,17 @@ select {
 a {
 	color: lightyellow;
 }
+.logo{
+	margin: 20px;
+}
+.title{
+	margin-left: 20px;
+	margin-top: -15px;
+	font-size: 14px;
+	border-bottom: 0.5px solid ;
+	padding-bottom: 5px;
+	width: 98%;
+}
 .main-board {
 	margin: 0 auto;
 	display: flex;
@@ -89,6 +100,7 @@ a {
 .high-light {
 	color: rgba(241, 211, 2, 1);
 }
+
 @media (max-width: 1024px) {
 	.main-board {
 		display: block;
